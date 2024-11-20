@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
+}
