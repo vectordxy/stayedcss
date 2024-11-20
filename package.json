@@ -1,0 +1,13 @@
+{
+  "name": "css-lib-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild app.jsx --bundle --outfile=out.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "typescript": "^5.6.3"
+  }
+}
