@@ -1,9 +1,5 @@
-import TestComponent from "./TestComponent";
+import TestComponent from "./test/TestComponent";
 
 export default function Home() {
-  return (
-    <div>
-      <TestComponent />
-    </div>
-  );
+  return <TestComponent />;
 }
