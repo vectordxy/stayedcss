@@ -1,14 +1,13 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
-import { convertTxtToCss } from "./convert";
 
 type Styles = {
   name?: string;
   style: { [key: string]: string | number };
 };
 
-const txtFilePath = ".stylecache/buffer.txt";
+const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
 
 async function ensureDirectoryExistence(filePath: string) {
@@ -22,12 +21,22 @@ async function ensureDirectoryExistence(filePath: string) {
   }
 }
 
-async function readFileContent(filePath: string): Promise<string> {
+async function readJsonFile(filePath: string): Promise<Record<string, string>> {
   try {
-    return await fs.readFile(filePath, "utf-8");
+    const content = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(content);
   } catch (error) {
-    console.log(`File does not exist. Creating ${filePath}...`);
-    return "";
+    console.log(`JSON file does not exist. Creating ${filePath}...`);
+    return {};
+  }
+}
+
+async function writeJsonFile(filePath: string, data: Record<string, string>) {
+  try {
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
+  } catch (error) {
+    console.error(`Failed to write JSON file: ${filePath}`, error);
+    throw error;
   }
 }
 
@@ -47,17 +56,22 @@ export function hz(input: Styles) {
 
   (async () => {
     try {
-      await ensureDirectoryExistence(txtFilePath);
-      const existingContent = await readFileContent(txtFilePath);
+      await ensureDirectoryExistence(jsonFilePath);
+      const existingData = await readJsonFile(jsonFilePath);
 
-      if (existingContent.includes(cssBlock)) {
+      if (existingData[className]) {
         console.log(`Style already exists: ${className}`);
         return;
       }
 
-      await fs.appendFile(txtFilePath, `${cssBlock}\n`, "utf-8");
-      await convertTxtToCss(txtFilePath, cssFilePath);
-      console.log(`Added new style to ${txtFilePath}: ${className}`);
+      // Add new style to JSON
+      existingData[className] = cssBlock;
+      await writeJsonFile(jsonFilePath, existingData);
+
+      // Convert JSON to CSS
+      const cssContent = Object.values(existingData).join("\n");
+      await fs.writeFile(cssFilePath, cssContent, "utf-8");
+      console.log(`Added new style to ${jsonFilePath}: ${className}`);
     } catch (error) {
       console.error(`Failed to process CSS: ${error}`);
     }
