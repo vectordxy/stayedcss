@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build-css": "node convertToCss.js && node convertToHTML.js",
-    "build": "esbuild --bundle src/App.tsx --outdir=dist --platform=node"
+    "convert": "npx tsx test/index.ts",
+    "build": "next build"
   },
   "dependencies": {
     "next": "^15.0.3",
