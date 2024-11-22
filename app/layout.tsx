@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import "./globals.css";
-import "../.stylecache/style.css";
 
 export const metadata: Metadata = {
   title: "Test App",

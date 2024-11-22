@@ -1,5 +1,5 @@
-import { updateClassnameAndCSS } from "./updateStyle";
 import { StyleType } from "./types";
+import { updateClassnameAndCSS } from "./updateStyle";
 
 const getFilePath = () => {
   const module = new URL(import.meta.url);
@@ -7,8 +7,6 @@ const getFilePath = () => {
   return rootPath;
 };
 
-const hz = (inputStyle: StyleType) => {
+export default function hz(inputStyle: StyleType) {
   return updateClassnameAndCSS(inputStyle, getFilePath());
-};
-
-export default hz;
+}
