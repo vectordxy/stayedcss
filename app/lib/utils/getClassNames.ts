@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import path from "path";
 
-export async function getClassNames(srcDir: string, outputFilePath: string) {
+export async function getClassNames(sourceDir: string) {
   const rootDir = process.cwd();
-  const dirPath = path.join(rootDir, "app/test");
+  const dirPath = path.join(rootDir, sourceDir);
 
   traverseDirectory(dirPath);
 }
