@@ -12,7 +12,7 @@ export function updateClassnameAndCSS(input: StyleType, stylePath: string) {
 
   let cssString = "";
   for (const key in input) {
-    if (input.style.hasOwnProperty(key)) {
+    if (input.hasOwnProperty(key)) {
       const kebabKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
       const style = input[key];
       if (typeof style === "string") {
