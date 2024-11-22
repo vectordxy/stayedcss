@@ -16,7 +16,6 @@ async function writeJsonFile(filePath: string, data: Record<string, string>) {
 }
 
 export function hz(input: StyleType, stylePath: string) {
-  //   const stylesString = JSON.stringify(input.style);
   const hash = crypto.createHash("md5").update(stylePath).digest("hex");
   const className = `hz-${hash.slice(0, 8)}`;
 
@@ -38,21 +37,33 @@ export function hz(input: StyleType, stylePath: string) {
   (async () => {
     try {
       await ensureDirectoryExistence(jsonFilePath);
+
       const existingData = await readJsonFile(jsonFilePath);
 
       if (existingData[className]) {
-        console.log(`Style already exists: ${className}`);
+        // 기존 CSS 업데이트
+        if (existingData[className] !== cssBlock) {
+          console.log(`Updating existing style for: ${className}`);
+          existingData[className] = cssBlock;
+          await writeJsonFile(jsonFilePath, existingData);
+
+          const cssContent = Object.values(existingData).join("\n");
+          await fs.writeFile(cssFilePath, cssContent, "utf-8");
+          console.log(`Updated style in ${cssFilePath}: ${className}`);
+        } else {
+          console.log(`Style already exists and is unchanged: ${className}`);
+        }
         return;
       }
 
-      // Add new style to JSON
+      // 새로운 CSS 추가
+      console.log(`Adding new style: ${className}`);
       existingData[className] = cssBlock;
       await writeJsonFile(jsonFilePath, existingData);
 
-      // Convert JSON to CSS
       const cssContent = Object.values(existingData).join("\n");
       await fs.writeFile(cssFilePath, cssContent, "utf-8");
-      console.log(`Added new style to ${jsonFilePath}: ${className}`);
+      console.log(`Added new style to ${cssFilePath}: ${className}`);
     } catch (error) {
       console.error(`Failed to process CSS: ${error}`);
     }
