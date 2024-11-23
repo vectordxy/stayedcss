@@ -25,11 +25,10 @@ export async function writeJsonFile(
   }
 }
 
-export async function ensureDirectoryExistence(filePath: string) {
+export async function ensureFileExistence(filePath: string) {
   const dirname = path.dirname(filePath);
   try {
     await fs.mkdir(dirname, { recursive: true });
-    // console.log(`Directory created: ${dirname}`);
   } catch (error) {
     console.error(`Failed to create directory: ${dirname}`, error);
     throw error;
