@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import { StyleType } from "../types";
 import { makeHash } from "./makeHash";
 import { ensureFileExistence, readJsonFile, writeJsonFile } from "./handleFile";
+import { isRequiredUnits } from "../syntax/checkUnits";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -21,12 +22,16 @@ export function updateClassnameAndCSS(input: StyleType) {
 
   for (const key in style) {
     if (style.hasOwnProperty(key)) {
-      const kebabKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+      const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
       const styleItem = style[key];
-      if (typeof styleItem === "string") {
-        if (styleItem.length !== 0) cssString += `${kebabKey}: ${styleItem}; `;
+      if (typeof styleItem === "number") {
+        if (isRequiredUnits(styleKey)) {
+          cssString += `${styleKey}: ${styleItem}px; `;
+        } else {
+          cssString += `${styleKey}: ${styleItem}; `;
+        }
       } else {
-        cssString += `${kebabKey}: ${styleItem}; `;
+        cssString += `${styleKey}: ${styleItem}; `;
       }
     }
   }
