@@ -1,24 +1,37 @@
 import { promises as fs } from "fs";
-import path from "path";
-import crypto from "crypto";
+
 import { StyleType } from "../types";
+import { makeHash } from "./makeHash";
+import {
+  ensureDirectoryExistence,
+  readJsonFile,
+  writeJsonFile,
+} from "./handleFile";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
+const target = "app";
 
-export function updateClassnameAndCSS(input: StyleType, stylePath: string) {
-  const hash = crypto.createHash("md5").update(stylePath).digest("hex");
-  const className = `hz-${hash.slice(0, 8)}`;
+export function updateClassnameAndCSS(input: StyleType) {
+  const { name, component, style } = input;
+  const fullPath = __dirname;
+  const relativePath = fullPath.substring(fullPath.indexOf(target));
+  const pathHash = makeHash(relativePath);
+  const componentHash = makeHash(component);
+  const className = `${name}-${pathHash.slice(0, 4)}${componentHash.slice(
+    0,
+    4
+  )}`;
 
   let cssString = "";
-  for (const key in input) {
-    if (input.hasOwnProperty(key)) {
+  for (const key in style) {
+    if (style.hasOwnProperty(key)) {
       const kebabKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
-      const style = input[key];
-      if (typeof style === "string") {
-        if (style.length !== 0) cssString += `${kebabKey}: ${input[key]}; `;
+      const styleItem = style[key];
+      if (typeof styleItem === "string") {
+        if (styleItem.length !== 0) cssString += `${kebabKey}: ${style[key]}; `;
       } else {
-        cssString += `${kebabKey}: ${input[key]}; `;
+        cssString += `${kebabKey}: ${style[key]}; `;
       }
     }
   }
@@ -27,7 +40,6 @@ export function updateClassnameAndCSS(input: StyleType, stylePath: string) {
   (async () => {
     try {
       await ensureDirectoryExistence(jsonFilePath);
-
       const existingData = await readJsonFile(jsonFilePath);
 
       if (existingData[className]) {
@@ -60,50 +72,4 @@ export function updateClassnameAndCSS(input: StyleType, stylePath: string) {
   })();
 
   return className;
-}
-
-async function ensureDirectoryExistence(filePath: string) {
-  const dirname = path.dirname(filePath);
-  try {
-    await fs.mkdir(dirname, { recursive: true });
-    // console.log(`Directory created: ${dirname}`);
-  } catch (error) {
-    console.error(`Failed to create directory: ${dirname}`, error);
-    throw error;
-  }
-}
-
-async function readJsonFile(filePath: string): Promise<Record<string, string>> {
-  try {
-    const content = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(content);
-  } catch (error) {
-    // console.log(`JSON file does not exist. Creating ${filePath}...`);
-    return {};
-  }
-}
-
-async function writeJsonFile(filePath: string, data: Record<string, string>) {
-  try {
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
-  } catch (error) {
-    console.error(`Failed to write JSON file: ${filePath}`, error);
-    throw error;
-  }
-}
-
-async function restartBufferJson() {
-  try {
-    await fs.unlink(jsonFilePath);
-    console.log(`Deleted existing buffer.json.`);
-  } catch (error) {
-    console.error(`Failed to delete buffer.json: ${error}`);
-  }
-
-  try {
-    await writeJsonFile(jsonFilePath, {});
-    console.log(`Initialized buffer.json.`);
-  } catch (error) {
-    console.error(`Failed to initialize buffer.json: ${error}`);
-  }
 }

@@ -1,3 +1,5 @@
 export type StyleType = {
-  [key: string]: string | number;
+  name: string;
+  component?: string;
+  style: { [key: string]: string | number };
 };
