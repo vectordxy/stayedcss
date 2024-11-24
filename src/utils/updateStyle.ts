@@ -4,6 +4,10 @@ import { StyleType } from "../types";
 import { makeHash } from "./makeHash";
 import { ensureFileExistence, readJsonFile, writeJsonFile } from "./handleFile";
 import { isRequiredUnits } from "../syntax/checkUnits";
+import {
+  addKeyframesImportToStyle,
+  generateKeyframesCSS,
+} from "../syntax/handleKeyframes";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -22,16 +26,24 @@ export function updateClassnameAndCSS(input: StyleType) {
 
   for (const key in style) {
     if (style.hasOwnProperty(key)) {
-      const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
-      const styleItem = style[key];
-      if (typeof styleItem === "number") {
-        if (isRequiredUnits(styleKey)) {
-          cssString += `${styleKey}: ${styleItem}px; `;
+      // 키프레임
+      if (key === "@keyframes") {
+        (async () => {
+          await generateKeyframesCSS(style, ".stylecache/keyframes.css");
+          await addKeyframesImportToStyle(cssFilePath, "./keyframes.css");
+        })();
+      } else {
+        const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+        const styleItem = style[key];
+        if (typeof styleItem === "number") {
+          if (isRequiredUnits(styleKey)) {
+            cssString += `${styleKey}: ${styleItem}px; `;
+          } else {
+            cssString += `${styleKey}: ${styleItem}; `;
+          }
         } else {
           cssString += `${styleKey}: ${styleItem}; `;
         }
-      } else {
-        cssString += `${styleKey}: ${styleItem}; `;
       }
     }
   }
