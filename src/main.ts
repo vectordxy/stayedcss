@@ -2,7 +2,7 @@ import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
 import { handleKeyframes } from "./syntax/handleKeyframes";
 import { StyleType } from "./types";
 import { makeHash } from "./utils/makeHash";
-import { writeNewCSS } from "./utils/writeNewCSS";
+import { writeNewCSS, writeNewKeyframes } from "./utils/writeNewCSS";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -22,7 +22,8 @@ export default function hz(input: StyleType) {
   for (const key in style) {
     if (style.hasOwnProperty(key)) {
       if (key === "@keyframes") {
-        cssBlock = handleKeyframes(style);
+        const { className, cssBlock } = handleKeyframes(style);
+        writeNewKeyframes(className, cssBlock, jsonFilePath, cssFilePath);
       } else {
         cssString += handleGeneralCSS(key, style);
         cssBlock = `.${className} { ${cssString.trim()} }`;

@@ -13,6 +13,5 @@ export const handleGeneralCSS = (key, style) => {
   } else {
     resultString += `${styleKey}: ${styleItem}; `;
   }
-
   return resultString;
 };

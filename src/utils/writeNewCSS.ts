@@ -1,7 +1,42 @@
-import { promises as fs } from "fs";
-import { ensureFileExistence, readJsonFile, writeJsonFile } from "./handleFile";
+import {
+  coonvertJsonToCSS,
+  ensureFileExistence,
+  readJsonFile,
+} from "./handleFile";
 
 export const writeNewCSS = async (
+  className: string,
+  cssBlock,
+  jsonFilePath: string,
+  cssFilePath: string
+) => {
+  try {
+    await ensureFileExistence(jsonFilePath);
+    const existingCSS = await readJsonFile(jsonFilePath);
+
+    // 해당 CSS가 이미 존재하면
+    if (existingCSS[className]) {
+      // 해당 CSS의 내용이 달라졌다면 (내용이 업데이트 되었다면)
+      if (existingCSS[className] !== cssBlock) {
+        existingCSS[className] = cssBlock;
+        coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
+      } else {
+        // 이미 해당 CSS가 존재하고 내용도 같다면 아무것도 하지 않는다
+      }
+      return;
+    } else {
+      // 새로운 CSS이라면 추가하기
+      existingCSS[className] = cssBlock;
+      coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
+    }
+  } catch (error) {
+    console.error(`Failed to process CSS: ${error}`);
+  }
+};
+
+const cssPath = ".stylecache/style.css";
+
+export const writeNewKeyframes = async (
   className,
   cssBlock,
   jsonFilePath,
@@ -9,27 +44,21 @@ export const writeNewCSS = async (
 ) => {
   try {
     await ensureFileExistence(jsonFilePath);
-    const existingData = await readJsonFile(jsonFilePath);
-
-    if (existingData[className]) {
-      // 기존 CSS 업데이트
-      if (existingData[className] !== cssBlock) {
-        existingData[className] = cssBlock;
-        await writeJsonFile(jsonFilePath, existingData);
-        const cssContent = Object.values(existingData).join("\n");
-        await fs.writeFile(cssFilePath, cssContent, "utf-8");
+    const existingCSS = await readJsonFile(jsonFilePath);
+    console.log(existingCSS);
+    if (existingCSS[className]) {
+      if (existingCSS[className] !== cssBlock) {
+        existingCSS[className] = cssBlock;
+        coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
       } else {
-        console.log(`Style already exists and is unchanged: ${className}`);
+        // 이미 해당 CSS가 존재하고 내용도 같다면 아무것도 하지 않는다
       }
       return;
+    } else {
+      existingCSS[className] = cssBlock;
+      coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
     }
-
-    // 새로운 CSS 추가
-    existingData[className] = cssBlock;
-    await writeJsonFile(jsonFilePath, existingData);
-    const cssContent = Object.values(existingData).join("\n");
-    await fs.writeFile(cssFilePath, cssContent, "utf-8");
   } catch (error) {
-    console.error(`Failed to process CSS: ${error}`);
+    console.error(`Failed to update keyframes in ${cssPath}: ${error}`);
   }
 };

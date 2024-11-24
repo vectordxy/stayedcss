@@ -1,36 +1,47 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-export async function readJsonFile(
+export const readJsonFile = async (
   filePath: string
-): Promise<Record<string, string>> {
+): Promise<Record<string, string>> => {
   try {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content);
   } catch (error) {
-    // console.log(`JSON file does not exist. Creating ${filePath}...`);
     return {};
   }
-}
+};
 
-export async function writeJsonFile(
+export const writeJsonFile = async (
   filePath: string,
   data: Record<string, string>
-) {
+) => {
   try {
     await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
   } catch (error) {
-    console.error(`Failed to write JSON file: ${filePath}`, error);
     throw error;
   }
-}
+};
 
-export async function ensureFileExistence(filePath: string) {
+export const ensureFileExistence = async (filePath: string) => {
   const dirname = path.dirname(filePath);
   try {
     await fs.mkdir(dirname, { recursive: true });
   } catch (error) {
-    console.error(`Failed to create directory: ${dirname}`, error);
     throw error;
   }
-}
+};
+
+export const coonvertJsonToCSS = async (
+  jsonFilePath: string,
+  cssFilePath: string,
+  existingCSS
+) => {
+  try {
+    await writeJsonFile(jsonFilePath, existingCSS);
+    const cssContent = Object.values(existingCSS).join("\n");
+    await fs.writeFile(cssFilePath, cssContent, "utf-8");
+  } catch (error) {
+    throw error;
+  }
+};

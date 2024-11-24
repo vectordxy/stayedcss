@@ -25,13 +25,14 @@ export const handleKeyframes = (style) => {
         } else {
           keyframesString += `${kebabKey}: ${keyframeStyleValue}; `;
         }
-        //   }
-        keyframesString += `} `;
-        // }
-        keyframesString += `} `;
       }
+      keyframesString += `} `;
     }
+    keyframesString += `} `;
   }
 
-  return keyframesString;
+  return {
+    className: keyframesString.split(" ")[1],
+    cssBlock: keyframesString,
+  };
 };
