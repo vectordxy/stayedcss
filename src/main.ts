@@ -1,8 +1,7 @@
 import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
-import { handleKeyframes } from "./syntax/handleKeyframes";
 import { StyleType } from "./types";
 import { makeHash } from "./utils/makeHash";
-import { writeNewCSS, writeNewKeyframes } from "./utils/writeNewCSS";
+import { writeNewCSS } from "./utils/writeNewCSS";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -18,19 +17,16 @@ export default function hz(input: StyleType) {
   const className = `${name}-${pathHash}${componentHash}`;
 
   let cssString = "";
-  let cssBlock = "";
-  for (const key in style) {
-    if (style.hasOwnProperty(key)) {
-      if (key === "@keyframes") {
-        const { className, cssBlock } = handleKeyframes(style);
-        writeNewKeyframes(className, cssBlock, jsonFilePath, cssFilePath);
-      } else {
+
+  (async () => {
+    for (const key in style) {
+      if (style.hasOwnProperty(key)) {
         cssString += handleGeneralCSS(key, style);
-        cssBlock = `.${className} { ${cssString.trim()} }`;
-        writeNewCSS(className, cssBlock, jsonFilePath, cssFilePath);
       }
     }
-  }
+    const cssBlock = `.${className} { ${cssString.trim()} }`;
+    await writeNewCSS(className, cssBlock, jsonFilePath, cssFilePath);
+  })();
 
   return className;
 }

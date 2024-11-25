@@ -6,7 +6,7 @@ import {
 
 export const writeNewCSS = async (
   className: string,
-  cssBlock,
+  cssBlock: string,
   jsonFilePath: string,
   cssFilePath: string
 ) => {
@@ -14,51 +14,22 @@ export const writeNewCSS = async (
     await ensureFileExistence(jsonFilePath);
     const existingCSS = await readJsonFile(jsonFilePath);
 
-    // 해당 CSS가 이미 존재하면
+    // 해당 CSS가 이미 존재
     if (existingCSS[className]) {
-      // 해당 CSS의 내용이 달라졌다면 (내용이 업데이트 되었다면)
-      if (existingCSS[className] !== cssBlock) {
-        existingCSS[className] = cssBlock;
-        coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
-      } else {
-        // 이미 해당 CSS가 존재하고 내용도 같다면 아무것도 하지 않는다
+      if (existingCSS[className] === cssBlock) {
+        console.log(`CSS is identical for: ${className}. Skipping update.`);
+        return; // 종료
       }
-      return;
-    } else {
-      // 새로운 CSS이라면 추가하기
+      console.log(`Updating existing CSS for: ${className}`);
       existingCSS[className] = cssBlock;
-      coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
+    } else {
+      console.log(`Adding new CSS for: ${className}`);
+      existingCSS[className] = cssBlock;
     }
+
+    // JSON 업데이트 및 CSS 파일 변환
+    await coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
   } catch (error) {
     console.error(`Failed to process CSS: ${error}`);
-  }
-};
-
-const cssPath = ".stylecache/style.css";
-
-export const writeNewKeyframes = async (
-  className,
-  cssBlock,
-  jsonFilePath,
-  cssFilePath
-) => {
-  try {
-    await ensureFileExistence(jsonFilePath);
-    const existingCSS = await readJsonFile(jsonFilePath);
-    console.log(existingCSS);
-    if (existingCSS[className]) {
-      if (existingCSS[className] !== cssBlock) {
-        existingCSS[className] = cssBlock;
-        coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
-      } else {
-        // 이미 해당 CSS가 존재하고 내용도 같다면 아무것도 하지 않는다
-      }
-      return;
-    } else {
-      existingCSS[className] = cssBlock;
-      coonvertJsonToCSS(jsonFilePath, cssFilePath, existingCSS);
-    }
-  } catch (error) {
-    console.error(`Failed to update keyframes in ${cssPath}: ${error}`);
   }
 };
