@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "test-my-lib": "./bin/init-stylecache.js"
+  },
   "devDependencies": {
     "@types/node": "^22.9.1",
     "tsx": "^4.19.2",
