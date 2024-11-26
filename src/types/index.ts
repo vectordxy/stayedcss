@@ -1,5 +1,1 @@
-export type StyleType = {
-  name: string;
-  component?: string;
-  style: { [key: string]: string | number };
-};
+export type StyleInput = Record<string, any>;

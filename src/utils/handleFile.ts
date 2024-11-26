@@ -32,7 +32,7 @@ export const ensureFileExistence = async (filePath: string) => {
   }
 };
 
-export const coonvertJsonToCSS = async (
+export const convertJsonToCSS = async (
   jsonFilePath: string,
   cssFilePath: string,
   existingCSS
