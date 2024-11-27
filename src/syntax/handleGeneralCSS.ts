@@ -6,13 +6,12 @@ export const handleGeneralCSS = (key: string, style: StyleInput) => {
   const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
   const styleItem = style[key];
   if (typeof styleItem === "number") {
-    if (isRequiredUnits(styleKey)) {
-      resultString += `${styleKey}: ${styleItem}px; `;
-    } else {
-      resultString += `${styleKey}: ${styleItem}; `;
-    }
+    resultString += `${styleKey}: ${styleItem}${
+      isRequiredUnits(styleKey) ? "px" : ""
+    }; `;
   } else {
     resultString += `${styleKey}: ${styleItem}; `;
   }
+
   return resultString;
 };
