@@ -1,6 +1,6 @@
 import { isRequiredUnits } from "./checkUnits";
 
-export const handleGeneralCSS = (key, style) => {
+export const handleGeneralCSS = (key: any, style: any) => {
   let resultString = "";
   const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
   const styleItem = style[key];

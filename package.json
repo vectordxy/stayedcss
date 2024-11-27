@@ -1,11 +1,19 @@
 {
   "name": "css-lib-project",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "bin": {
     "test-my-lib": "./bin/init-stylecache.js"
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",

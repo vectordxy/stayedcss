@@ -35,7 +35,7 @@ export const ensureFileExistence = async (filePath: string) => {
 export const convertJsonToCSS = async (
   jsonFilePath: string,
   cssFilePath: string,
-  existingCSS
+  existingCSS: any
 ) => {
   try {
     await writeJsonFile(jsonFilePath, existingCSS);

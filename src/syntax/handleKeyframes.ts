@@ -1,6 +1,6 @@
 import { isRequiredUnits } from "./checkUnits";
 
-export const handleKeyframes = (style) => {
+export const handleKeyframes = (style: any) => {
   let keyframesString = "";
 
   const keyframesAnimation = style["@keyframes"];
