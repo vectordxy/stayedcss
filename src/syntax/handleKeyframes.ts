@@ -1,34 +1,31 @@
 import { isRequiredUnits } from "./checkUnits";
 
-export const handleKeyframes = (style: any) => {
-  // let keyframesString = "";
-  // const keyframesAnimation = style["@keyframes"];
-  // for (const keyframeName in keyframesAnimation as any) {
-  //   const keyFrameItem = keyframesAnimation[keyframeName];
-  //   keyframesString += `@keyframes ${keyframeName} { `;
-  //   for (const keyFrameItemKey in keyFrameItem) {
-  //     keyframesString += `${keyFrameItemKey} { `;
-  //     const keyframesStyle = keyFrameItem[keyFrameItemKey];
-  //     for (const keyframesStyleKey in keyframesStyle) {
-  //       const kebabKey = keyframesStyleKey
-  //         .replace(/([A-Z])/g, "-$1")
-  //         .toLowerCase();
-  //       const keyframeStyleValue = keyframesStyle[keyframesStyleKey];
-  //       if (
-  //         typeof keyframeStyleValue === "number" &&
-  //         isRequiredUnits(kebabKey)
-  //       ) {
-  //         keyframesString += `${kebabKey}: ${keyframeStyleValue}px; `;
-  //       } else {
-  //         keyframesString += `${kebabKey}: ${keyframeStyleValue}; `;
-  //       }
-  //     }
-  //     keyframesString += `} `;
-  //   }
-  //   keyframesString += `} `;
-  // }
-  // return {
-  //   className: keyframesString.split(" ")[1],
-  //   cssBlock: keyframesString,
-  // };
+export const handleKeyframes = (keyframes: any, className: string) => {
+  let resultString = "";
+
+  for (const keyframesName in keyframes) {
+    resultString += `@keyframes ${keyframesName} { `;
+    const keyframesStyle = keyframes[keyframesName];
+
+    for (const frameKey in keyframesStyle) {
+      const frameStyle = keyframesStyle[frameKey];
+      resultString += `${frameKey} { `;
+
+      for (const styleKey in frameStyle) {
+        const kebabKey = styleKey.replace(/([A-Z])/g, "-$1").toLowerCase();
+        const styleValue = frameStyle[styleKey];
+        if (typeof styleValue === "number") {
+          resultString += `${kebabKey}: ${styleValue}${
+            isRequiredUnits(kebabKey) ? "px" : ""
+          }; `;
+        } else {
+          resultString += `${kebabKey}: ${styleValue}; `;
+        }
+      }
+      resultString += `} `; // 닫는 중괄호 (frameKey)
+    }
+    resultString += `} `; // 닫는 중괄호 (keyframesName)
+  }
+
+  return resultString.trim();
 };

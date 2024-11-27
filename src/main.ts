@@ -3,6 +3,7 @@ import { writeNewCSS } from "./utils/writeNewCSS";
 
 import { breakpoints, handleMediaQuery } from "./syntax/handleMediaQuery";
 import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
+import { handleKeyframes } from "./syntax/handleKeyframes";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -31,19 +32,16 @@ export default function hz(input: any) {
 
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
+        itemClassName = `${itemName}-${pathHash}${componentHash}`;
         if (key === "@keyframes") {
-          // Handle keyframes
-          // keyframesString += handleKeyframes(itemStyle[key], itemName);
+          cssBlock += handleKeyframes(itemStyle[key], itemClassName);
         } else if (key in breakpoints) {
-          const mqStyle = itemStyle[key] as any;
-          itemClassName = `${itemName}-${pathHash}${componentHash}`;
-          cssBlock = mediaQueryString += handleMediaQuery(
+          cssBlock += mediaQueryString += handleMediaQuery(
             breakpoints[key],
-            mqStyle,
+            itemStyle[key],
             `${itemName}-${pathHash}${componentHash}`
           );
         } else {
-          itemClassName = `${itemName}-${pathHash}${componentHash}`;
           cssBlock = `.${itemClassName} { ${cssString} } `;
           cssString += handleGeneralCSS(key, itemStyle);
         }
