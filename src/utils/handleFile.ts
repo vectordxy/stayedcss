@@ -1,9 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { JsonInput } from "../types";
 
-export const readJsonFile = async (
-  filePath: string
-): Promise<Record<string, string>> => {
+export const readJsonFile = async (filePath: string): Promise<JsonInput> => {
   try {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content);
@@ -12,10 +11,7 @@ export const readJsonFile = async (
   }
 };
 
-export const writeJsonFile = async (
-  filePath: string,
-  data: Record<string, string>
-) => {
+export const writeJsonFile = async (filePath: string, data: JsonInput) => {
   try {
     await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
   } catch (error) {
@@ -35,7 +31,7 @@ export const ensureFileExistence = async (filePath: string) => {
 export const convertJsonToCSS = async (
   jsonFilePath: string,
   cssFilePath: string,
-  existingCSS: any
+  existingCSS: JsonInput
 ) => {
   try {
     await writeJsonFile(jsonFilePath, existingCSS);

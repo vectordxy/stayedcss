@@ -1,6 +1,7 @@
+import { StyleInput } from "../types";
 import { isRequiredUnits } from "./checkUnits";
 
-export const handleGeneralCSS = (key: any, style: any) => {
+export const handleGeneralCSS = (key: string, style: StyleInput) => {
   let resultString = "";
   const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
   const styleItem = style[key];

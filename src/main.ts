@@ -1,5 +1,5 @@
 import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
-import { StyleInput } from "./types";
+import { StyleInput, StylesOutput } from "./types";
 import { makeHash } from "./utils/makeHash";
 import { writeNewCSS } from "./utils/writeNewCSS";
 
@@ -17,37 +17,46 @@ export default function hz(input: StyleInput) {
     ([key]) => key !== "component"
   );
 
-  const styles: StyleInput = {};
+  const styles: StylesOutput = {};
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
-    const itemStyle = styleData[i][1] as StyleInput;
+    const itemStyle = styleData[i][1] as unknown;
+    if (typeof itemStyle === "object" && itemStyle !== null) {
+      const style = itemStyle as StyleInput;
 
-    let cssString = "";
-    for (const key in itemStyle) {
-      if (itemStyle.hasOwnProperty(key)) {
-        cssString += handleGeneralCSS(key, itemStyle);
+      let cssString = "";
+      for (const key in itemStyle) {
+        if (itemStyle.hasOwnProperty(key)) {
+          cssString += handleGeneralCSS(key, style);
+        }
       }
+
+      const itemClassName = `${itemName}-${pathHash}${componentHash}`;
+      const cssBlock = `.${itemClassName} { ${cssString.trim()} }`;
+
+      // CSS 업데이트
+      (async () => {
+        await writeNewCSS(itemClassName, cssBlock, jsonFilePath, cssFilePath);
+      })();
+
+      styles[itemName] = {
+        ...itemStyle,
+        className: itemClassName,
+      };
     }
-
-    const itemClassName = `${itemName}-${pathHash}${componentHash}`;
-    const cssBlock = `.${itemClassName} { ${cssString.trim()} }`;
-
-    // CSS 업데이트
-    (async () => {
-      await writeNewCSS(itemClassName, cssBlock, jsonFilePath, cssFilePath);
-    })();
-
-    styles[itemName] = {
-      ...itemStyle,
-      className: itemClassName,
-    };
   }
 
   return new Proxy(styles, {
     get(target, prop) {
       if (typeof prop === "string" && prop in target) {
-        return target[prop].className;
+        if (
+          typeof target[prop] === "object" &&
+          target[prop] !== null &&
+          "className" in target[prop]
+        ) {
+          return target[prop].className;
+        }
       } else {
         console.warn(`Property "${String(prop)}" does not exist on styles.`);
         return undefined;
