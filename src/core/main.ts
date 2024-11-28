@@ -73,7 +73,10 @@ export default function hz(input: MainInputType) {
       }
     }
     // 일반 CSS 합치기
-    resultCSS.push({ className: itemClassName, style: bufferGeneralCSS });
+    resultCSS.push({
+      className: itemClassName,
+      style: `.${itemClassName} { ${bufferGeneralCSS}};`,
+    });
   }
   writeNewCSS(resultCSS);
 
