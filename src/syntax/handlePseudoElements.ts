@@ -6,7 +6,7 @@ export const handlePseudoElements = (
   className: string
 ) => {
   let resultString = `.${className}${elementKey} { `;
-
+  const result = [];
   for (const key in style) {
     const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
     const styleItem = style[key];
@@ -18,7 +18,9 @@ export const handlePseudoElements = (
       resultString += `${styleKey}: ${styleItem}; `;
     }
   }
+
+  // console.log(result);
   resultString += `} `;
 
-  return resultString;
+  return { className: `.${className}${elementKey}`, style: resultString };
 };

@@ -1,4 +1,4 @@
-import { MediaQueryInput, StyleObject } from "../types";
+import { MediaQueryInput, StyleInputType } from "../types";
 import { isRequiredUnits } from "./checkUnits";
 
 export const breakpoints: MediaQueryInput = {
@@ -8,7 +8,7 @@ export const breakpoints: MediaQueryInput = {
 
 export const handleMediaQuery = (
   mqType: string,
-  style: StyleObject,
+  style: StyleInputType,
   className: string
 ) => {
   let mediaQueryString = `@media ${mqType} { .${className} { `;
@@ -29,5 +29,8 @@ export const handleMediaQuery = (
     mediaQueryString += resultString;
   }
   mediaQueryString += `} };`;
-  return mediaQueryString;
+  return {
+    className: `@media ${mqType} .${className}`,
+    style: mediaQueryString,
+  };
 };

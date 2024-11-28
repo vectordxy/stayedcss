@@ -1,20 +1,18 @@
 export type JsonInput = Record<string, string>;
 export type MediaQueryInput = Record<string, string>;
 
-export type StyleObject = {
-  [key: string]: string | number;
-};
+interface ComponentType {
+  componentName: string;
+}
 
-export type StyleInput = {
-  component: string;
-} & {
-  [key: string]: StyleObject;
-};
+export interface StyleInputType {
+  [key: string]: { [styleKey: string]: string | number };
+}
 
-export type StylesOutput = {
-  [key: string]: StyleObject & { className: string };
-};
-
-export type ItemStyleType = {
-  [key: string]: string | number | ItemStyleType;
-};
+export type MainInputType = ComponentType & StyleInputType;
+export interface StyleOutputType {
+  [key: string]: {
+    className: string;
+    style: string;
+  };
+}

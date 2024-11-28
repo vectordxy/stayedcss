@@ -20,5 +20,5 @@ export const handleCombinators = (
   }
 
   resultString += "}";
-  return resultString;
+  return { className: `${className} ${elementKey}`, style: resultString };
 };

@@ -1,12 +1,10 @@
 import { promises as fs } from "fs";
 import { ensureFileExistence, readJsonFile, writeJsonFile } from "./handleFile";
 
-export const writeNewCSS = async (
-  className: string,
-  cssBlock: string,
-  jsonFilePath: string,
-  cssFilePath: string
-) => {
+const jsonFilePath = ".stylecache/buffer.json";
+const cssFilePath = ".stylecache/style.css";
+
+export const writeNewCSS = async (className: string, cssBlock: string) => {
   try {
     await ensureFileExistence(jsonFilePath);
     const existingCSS = await readJsonFile(jsonFilePath);
