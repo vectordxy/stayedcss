@@ -1,3 +1,5 @@
+import { MainInputType, StylesForProxyType } from "../types";
+import { handleHash, writeNewCSS } from "../utils";
 import {
   breakpoints,
   handleCombinators,
@@ -6,8 +8,6 @@ import {
   handlePseudoElements,
   isPseudoElements,
 } from "../syntax";
-import { MainInputType, StylesForProxyType } from "../types";
-import { handleHash, writeNewCSS } from "../utils";
 
 export default function hz(input: MainInputType) {
   const target = "server";
@@ -30,12 +30,8 @@ export default function hz(input: MainInputType) {
     const itemClassName = `${itemName}-${pathHash}${componentHash}`;
 
     let bufferGeneralCSS = "";
-    console.log(itemName);
-    // styles[itemName] = {
-    //   className: "",
-    //   style: "",
-    // };
 
+    // 스타일 처리
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
         switch (true) {
@@ -73,17 +69,19 @@ export default function hz(input: MainInputType) {
       }
     }
 
+    // 프록시 업데이트 for 클라이언트
     stylesForProxy[itemName] = {
       className: itemClassName,
     };
 
-    // 일반 CSS 합치기
+    // 일반 스타일 처리
     stylesForCSS.push({
       className: itemClassName,
       style: `.${itemClassName} { ${bufferGeneralCSS}};`,
     });
   }
 
+  // CSS 파일 작성하기
   writeNewCSS(stylesForCSS);
 
   return new Proxy(stylesForProxy, {
