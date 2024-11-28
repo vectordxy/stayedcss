@@ -6,7 +6,7 @@ export const handleGeneralCSS = (
   style: StyleInputType,
   className: string
 ) => {
-  let resultString = "";
+  let resultString = `.${className} { `;
 
   const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
   const styleItem = style[key];
@@ -18,5 +18,6 @@ export const handleGeneralCSS = (
     resultString += `${styleKey}: ${styleItem}; `;
   }
 
+  resultString += "}";
   return resultString;
 };

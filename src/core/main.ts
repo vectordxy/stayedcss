@@ -7,11 +7,11 @@ import {
   isPseudoElements,
 } from "../syntax";
 import { MainInputType, StyleOutputType } from "../types";
-import { handleHash } from "../utils";
-
-const target = "server";
+import { handleHash, writeNewCSS } from "../utils";
 
 export default function hz(input: MainInputType) {
+  const target = "server";
+
   const fullPath = __dirname;
   const relativePath = fullPath.substring(fullPath.indexOf(target));
   const pathHash = handleHash(relativePath).slice(0, 4);
@@ -74,12 +74,9 @@ export default function hz(input: MainInputType) {
     }
     // 일반 CSS 합치기
     resultCSS.push({ className: itemClassName, style: bufferGeneralCSS });
-
-    // (async () => {
-    //   await writeNewCSS(itemClassName, cssBlock);
-    // })();
   }
-  console.log(resultCSS);
+  writeNewCSS(resultCSS);
+
   return new Proxy(styles, {
     get(target, prop) {
       if (typeof prop === "string") {
