@@ -3,13 +3,9 @@ import { JsonInput } from "../types";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
-
-// 이미 처리된 className 추적
-const processedClasses = new Set<string>();
-
 export const writeNewCSS = async (input: JsonInput[]) => {
   try {
-    // 기존 데이터 로드
+    // 기존 JSON 데이터 읽기
     let existingJson: JsonInput = {};
     try {
       const jsonData = await fs.readFile(jsonFilePath, "utf-8");
@@ -18,20 +14,28 @@ export const writeNewCSS = async (input: JsonInput[]) => {
       console.log("No existing JSON file found. Creating a new one.");
     }
 
-    // 새로운 JSON 데이터 생성 (중복제외)
+    // 새로운 JSON 데이터 생성
     const jsonResult: JsonInput = { ...existingJson };
-    const newCSSContent: string[] = []; // 새로운 CSS만 저장
+    let isUpdated = false; // 변경 여부 플래그
 
     for (const item of input) {
-      if (existingJson[item.className] !== item.style) {
-        jsonResult[item.className] = item.style;
-
-        // 처리되지 않은 className만 추가
-        if (!processedClasses.has(item.className)) {
-          newCSSContent.push(item.style); // 새로운 CSS 추가
-          processedClasses.add(item.className); // 처리된 className 기록
+      if (item.className in existingJson) {
+        if (existingJson[item.className] !== item.style) {
+          // 내용이 변경되었으면 업데이트
+          jsonResult[item.className] = item.style;
+          isUpdated = true;
         }
+      } else {
+        // 새로운 클래스 추가
+        jsonResult[item.className] = item.style;
+        isUpdated = true;
       }
+    }
+
+    // 변경이 없으면 종료
+    if (!isUpdated) {
+      console.log("No updates to JSON or CSS files.");
+      return; // 추가 작업 불필요
     }
 
     // JSON 파일 저장
@@ -41,19 +45,11 @@ export const writeNewCSS = async (input: JsonInput[]) => {
       "utf-8"
     );
 
-    // 새로운 CSS만 파일에 저장
-    if (newCSSContent.length > 0) {
-      const existingCSS = await fs
-        .readFile(cssFilePath, "utf-8")
-        .catch(() => "");
-      const updatedCSS = [existingCSS, ...newCSSContent]
-        .filter(Boolean)
-        .join("\n");
-      await fs.writeFile(cssFilePath, updatedCSS, "utf-8");
-      console.log(`CSS file successfully updated at ${cssFilePath}`);
-    } else {
-      console.log("No new CSS to process.");
-    }
+    // CSS 파일 생성
+    const cssContent = Object.values(jsonResult).join("\n");
+    await fs.writeFile(cssFilePath, cssContent, "utf-8");
+
+    console.log("CSS file updated successfully.");
   } catch (error) {
     console.error(`Failed to process CSS: ${error}`);
   }

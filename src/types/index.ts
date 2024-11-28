@@ -9,6 +9,9 @@ export interface StyleInputType {
   [key: string]: { [styleKey: string]: string | number };
 }
 
+export interface StylesForProxyType {
+  [key: string]: { className: string };
+}
 export type MainInputType = ComponentType & StyleInputType;
 export interface StyleOutputType {
   [key: string]: {

@@ -6,7 +6,7 @@ import {
   handlePseudoElements,
   isPseudoElements,
 } from "../syntax";
-import { MainInputType, StyleOutputType } from "../types";
+import { MainInputType, StylesForProxyType } from "../types";
 import { handleHash, writeNewCSS } from "../utils";
 
 export default function hz(input: MainInputType) {
@@ -21,8 +21,8 @@ export default function hz(input: MainInputType) {
     ([key]) => key !== "componentName"
   );
 
-  const styles: StyleOutputType = {};
-  const resultCSS = [];
+  const stylesForProxy: StylesForProxyType = {};
+  const stylesForCSS = [];
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
@@ -30,11 +30,11 @@ export default function hz(input: MainInputType) {
     const itemClassName = `${itemName}-${pathHash}${componentHash}`;
 
     let bufferGeneralCSS = "";
-
-    styles[itemName] = {
-      className: "",
-      style: "",
-    };
+    console.log(itemName);
+    // styles[itemName] = {
+    //   className: "",
+    //   style: "",
+    // };
 
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
@@ -45,7 +45,7 @@ export default function hz(input: MainInputType) {
               itemStyle[key],
               itemClassName
             );
-            resultCSS.push(pResult);
+            stylesForCSS.push(pResult);
             break;
 
           case /^[>+~ ]/.test(key): // 조합자
@@ -54,7 +54,7 @@ export default function hz(input: MainInputType) {
               itemStyle[key],
               itemClassName
             );
-            resultCSS.push(cResult);
+            stylesForCSS.push(cResult);
             break;
 
           case key in breakpoints: // 미디어쿼리 (반응형)
@@ -63,7 +63,7 @@ export default function hz(input: MainInputType) {
               itemStyle[key],
               `${itemName}-${pathHash}${componentHash}`
             );
-            resultCSS.push(mqResult);
+            stylesForCSS.push(mqResult);
             break;
 
           default: // 그외 일반 CSS
@@ -72,15 +72,21 @@ export default function hz(input: MainInputType) {
         }
       }
     }
+
+    stylesForProxy[itemName] = {
+      className: itemClassName,
+    };
+
     // 일반 CSS 합치기
-    resultCSS.push({
+    stylesForCSS.push({
       className: itemClassName,
       style: `.${itemClassName} { ${bufferGeneralCSS}};`,
     });
   }
-  writeNewCSS(resultCSS);
 
-  return new Proxy(styles, {
+  writeNewCSS(stylesForCSS);
+
+  return new Proxy(stylesForProxy, {
     get(target, prop) {
       if (typeof prop === "string") {
         if (
