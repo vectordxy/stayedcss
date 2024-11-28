@@ -1,12 +1,12 @@
-import { makeHash } from "./utils/makeHash";
-import { writeNewCSS } from "./utils/writeNewCSS";
-
-import { breakpoints, handleMediaQuery } from "./syntax/handleMediaQuery";
-import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
-import { handleKeyframes } from "./syntax/handleKeyframes";
-import { isPseudoElements } from "./syntax/checkPseudoElements";
-import { handlePseudoElements } from "./syntax/handlePseudoElements";
-import { handleCombinators } from "./syntax/handleCombinator";
+import {
+  breakpoints,
+  handleCombinators,
+  handleGeneralCSS,
+  handleMediaQuery,
+  handlePseudoElements,
+  isPseudoElements,
+} from "../syntax";
+import { handleHash } from "../utils";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -15,8 +15,8 @@ const target = "server";
 export default function hz(input: any) {
   const fullPath = __dirname;
   const relativePath = fullPath.substring(fullPath.indexOf(target));
-  const pathHash = makeHash(relativePath).slice(0, 4);
-  const componentHash = makeHash(input.component).slice(0, 4);
+  const pathHash = handleHash(relativePath).slice(0, 4);
+  const componentHash = handleHash(input.component).slice(0, 4);
 
   const styleData = Object.entries(input).filter(
     ([key]) => key !== "component"
@@ -55,9 +55,9 @@ export default function hz(input: any) {
       }
     }
 
-    (async () => {
-      await writeNewCSS(itemClassName, cssBlock, jsonFilePath, cssFilePath);
-    })();
+    // (async () => {
+    //   await writeNewCSS(itemClassName, cssBlock, jsonFilePath, cssFilePath);
+    // })();
   }
 
   return new Proxy(styles, {

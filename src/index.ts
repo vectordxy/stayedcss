@@ -1,1 +1,1 @@
-export { default as hz } from "./main";
+export { default as hz } from "./core/main";

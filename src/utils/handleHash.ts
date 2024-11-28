@@ -1,5 +1,5 @@
 import crypto from "crypto";
 
-export function makeHash(str: string) {
+export function handleHash(str: string) {
   return crypto.createHash("md5").update(str).digest("hex");
 }

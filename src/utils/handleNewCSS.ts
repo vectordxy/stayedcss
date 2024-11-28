@@ -28,10 +28,10 @@ export const writeNewCSS = async (
       await writeJsonFile(jsonFilePath, existingCSS);
     }
 
-    if (jsonUpdated) {
-      const cssContent = Object.values(existingCSS).join("\n");
-      await fs.writeFile(cssFilePath, cssContent, "utf-8");
-    }
+    // if (jsonUpdated) {
+    //   const cssContent = Object.values(existingCSS).join("\n");
+    //   await fs.writeFile(cssFilePath, cssContent, "utf-8");
+    // }
   } catch (error) {
     console.error(`Failed to process CSS: ${error}`);
   }
