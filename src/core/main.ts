@@ -22,12 +22,7 @@ export default function hz(input: MainInputType) {
   );
 
   const styles: StyleOutputType = {};
-  let resultCSS = {};
-
-  const pseudoCSS = [];
-  const combinatorCSS = [];
-  const mediaQueryCSS = [];
-  const generalCSS = [];
+  const resultCSS = [];
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
@@ -43,39 +38,48 @@ export default function hz(input: MainInputType) {
 
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
-        if (isPseudoElements(key)) {
-          // 가상요소
-          const result = handlePseudoElements(
-            key,
-            itemStyle[key],
-            itemClassName
-          );
-          pseudoCSS.push(result);
-        } else if (/^[>+~ ]/.test(key)) {
-          // 조합자
-          const result = handleCombinators(key, itemStyle[key], itemClassName);
-          combinatorCSS.push(result);
-        } else if (key in breakpoints) {
-          // 미디어쿼리 (반응형)
-          const result = handleMediaQuery(
-            breakpoints[key],
-            itemStyle[key],
-            `${itemName}-${pathHash}${componentHash}`
-          );
-          mediaQueryCSS.push(result);
-        } else {
-          bufferGeneralCSS += handleGeneralCSS(key, itemStyle, itemClassName);
+        switch (true) {
+          case isPseudoElements(key): // 가상요소
+            const pResult = handlePseudoElements(
+              key,
+              itemStyle[key],
+              itemClassName
+            );
+            resultCSS.push(pResult);
+            break;
+
+          case /^[>+~ ]/.test(key): // 조합자
+            const cResult = handleCombinators(
+              key,
+              itemStyle[key],
+              itemClassName
+            );
+            resultCSS.push(cResult);
+            break;
+
+          case key in breakpoints: // 미디어쿼리 (반응형)
+            const mqResult = handleMediaQuery(
+              breakpoints[key],
+              itemStyle[key],
+              `${itemName}-${pathHash}${componentHash}`
+            );
+            resultCSS.push(mqResult);
+            break;
+
+          default: // 그외 일반 CSS
+            bufferGeneralCSS += handleGeneralCSS(key, itemStyle, itemClassName);
+            break;
         }
       }
     }
-    //
-    generalCSS.push({ className: itemClassName, style: bufferGeneralCSS });
+    // 일반 CSS 합치기
+    resultCSS.push({ className: itemClassName, style: bufferGeneralCSS });
 
     // (async () => {
     //   await writeNewCSS(itemClassName, cssBlock);
     // })();
   }
-
+  console.log(resultCSS);
   return new Proxy(styles, {
     get(target, prop) {
       if (typeof prop === "string") {
