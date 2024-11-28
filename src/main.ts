@@ -6,6 +6,7 @@ import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
 import { handleKeyframes } from "./syntax/handleKeyframes";
 import { isPseudoElements } from "./syntax/checkPseudoElements";
 import { handlePseudoElements } from "./syntax/handlePseudoElements";
+import { handleCombinators } from "./syntax/handleCombinator";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -30,7 +31,6 @@ export default function hz(input: any) {
     const itemClassName = `${itemName}-${pathHash}${componentHash}`;
 
     let cssString = "";
-    let mediaQueryString = "";
 
     styles[itemName] = {
       className: itemClassName,
@@ -40,8 +40,10 @@ export default function hz(input: any) {
       if (itemStyle.hasOwnProperty(key)) {
         if (isPseudoElements(key)) {
           handlePseudoElements(key, itemStyle[key], itemClassName);
+        } else if (/^[>+~ ]/.test(key)) {
+          handleCombinators(key, itemStyle[key], itemClassName);
         } else if (key in breakpoints) {
-          mediaQueryString += handleMediaQuery(
+          handleMediaQuery(
             breakpoints[key],
             itemStyle[key],
             `${itemName}-${pathHash}${componentHash}`
