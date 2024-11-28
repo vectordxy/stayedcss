@@ -2,8 +2,10 @@ import { isRequiredUnits } from "./checkUnits";
 
 export const handleKeyframes = (keyframes: any, className: string) => {
   let resultString = "";
+  let name = "";
 
   for (const keyframesName in keyframes) {
+    name = keyframesName;
     resultString += `@keyframes ${keyframesName} { `;
     const keyframesStyle = keyframes[keyframesName];
 
@@ -22,9 +24,9 @@ export const handleKeyframes = (keyframes: any, className: string) => {
           resultString += `${kebabKey}: ${styleValue}; `;
         }
       }
-      resultString += `} `; // 닫는 중괄호 (frameKey)
+      resultString += `} `;
     }
-    resultString += `} `; // 닫는 중괄호 (keyframesName)
+    resultString += `} `;
   }
 
   return resultString.trim();

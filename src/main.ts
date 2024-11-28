@@ -4,6 +4,8 @@ import { writeNewCSS } from "./utils/writeNewCSS";
 import { breakpoints, handleMediaQuery } from "./syntax/handleMediaQuery";
 import { handleGeneralCSS } from "./syntax/handleGeneralCSS";
 import { handleKeyframes } from "./syntax/handleKeyframes";
+import { isPseudoElements } from "./syntax/checkPseudoElements";
+import { handlePseudoElements } from "./syntax/handlePseudoElements";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
@@ -20,47 +22,40 @@ export default function hz(input: any) {
   );
 
   const styles: any = {};
-  let itemClassName = "";
   let cssBlock = "";
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
     const itemStyle = styleData[i][1] as any;
+    const itemClassName = `${itemName}-${pathHash}${componentHash}`;
+
     let cssString = "";
     let mediaQueryString = "";
-    let keyframesString = "";
+
+    styles[itemName] = {
+      className: itemClassName,
+    };
 
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
-        itemClassName = `${itemName}-${pathHash}${componentHash}`;
-        if (key === "@keyframes") {
-          cssBlock += handleKeyframes(itemStyle[key], itemClassName);
+        if (isPseudoElements(key)) {
+          handlePseudoElements(key, itemStyle[key], itemClassName);
         } else if (key in breakpoints) {
-          cssBlock += mediaQueryString += handleMediaQuery(
+          mediaQueryString += handleMediaQuery(
             breakpoints[key],
             itemStyle[key],
             `${itemName}-${pathHash}${componentHash}`
           );
         } else {
-          cssBlock = `.${itemClassName} { ${cssString} } `;
           cssString += handleGeneralCSS(key, itemStyle);
+          cssBlock = `.${itemClassName} { ${cssString} } `;
         }
       }
     }
 
     (async () => {
-      const res = await writeNewCSS(
-        itemClassName,
-        cssBlock,
-        jsonFilePath,
-        cssFilePath
-      );
+      await writeNewCSS(itemClassName, cssBlock, jsonFilePath, cssFilePath);
     })();
-
-    styles[itemName] = {
-      ...itemStyle,
-      className: itemClassName,
-    };
   }
 
   return new Proxy(styles, {
