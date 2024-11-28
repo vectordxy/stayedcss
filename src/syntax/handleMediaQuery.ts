@@ -1,5 +1,5 @@
-import { MediaQueryInput, StyleInputType } from "../types";
 import { isRequiredUnits } from "./checkUnits";
+import { MediaQueryInput, StyleInputType } from "../types";
 
 export const breakpoints: MediaQueryInput = {
   "@mobile": "(max-width: 768px)",
@@ -7,11 +7,11 @@ export const breakpoints: MediaQueryInput = {
 };
 
 export const handleMediaQuery = (
-  mqType: string,
+  mediaQueryKey: string,
   style: StyleInputType,
   className: string
 ) => {
-  let mediaQueryString = `@media ${mqType} { .${className} { `;
+  let mediaQueryString = `@media ${mediaQueryKey} { .${className} { `;
   let resultString = "";
 
   for (const key in style) {
@@ -30,7 +30,7 @@ export const handleMediaQuery = (
   }
   mediaQueryString += `} };`;
   return {
-    className: `@media ${mqType} .${className}`,
+    className: `@media ${mediaQueryKey} .${className}`,
     style: mediaQueryString,
   };
 };

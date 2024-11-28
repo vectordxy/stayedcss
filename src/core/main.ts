@@ -1,4 +1,4 @@
-import { MainInputType, StylesForProxyType } from "../types";
+import { JsonInput, MainInputType, StylesForProxyType } from "../types";
 import { handleHash, writeNewCSS } from "../utils";
 import {
   breakpoints,
@@ -22,7 +22,7 @@ export default function hz(input: MainInputType) {
   );
 
   const stylesForProxy: StylesForProxyType = {};
-  const stylesForCSS = [];
+  const stylesForCSS: JsonInput[] = [];
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
@@ -34,11 +34,13 @@ export default function hz(input: MainInputType) {
     // 스타일 처리
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
+        const itemKey = key;
+        const itemObjectStyle = itemStyle[key];
         switch (true) {
           case isPseudoElements(key): // 가상요소
             const pResult = handlePseudoElements(
-              key,
-              itemStyle[key],
+              itemKey,
+              itemObjectStyle,
               itemClassName
             );
             stylesForCSS.push(pResult);
@@ -46,8 +48,8 @@ export default function hz(input: MainInputType) {
 
           case /^[>+~ ]/.test(key): // 조합자
             const cResult = handleCombinators(
-              key,
-              itemStyle[key],
+              itemKey,
+              itemObjectStyle,
               itemClassName
             );
             stylesForCSS.push(cResult);
@@ -56,20 +58,23 @@ export default function hz(input: MainInputType) {
           case key in breakpoints: // 미디어쿼리 (반응형)
             const mqResult = handleMediaQuery(
               breakpoints[key],
-              itemStyle[key],
-              `${itemName}-${pathHash}${componentHash}`
+              itemObjectStyle,
+              itemClassName
             );
             stylesForCSS.push(mqResult);
             break;
 
-          default: // 그외 일반 CSS
-            bufferGeneralCSS += handleGeneralCSS(key, itemStyle, itemClassName);
+          default: // 그외 일반 스타일
+            bufferGeneralCSS += handleGeneralCSS(
+              itemKey,
+              itemStyle,
+              itemClassName
+            );
             break;
         }
       }
     }
 
-    // 프록시 업데이트 for 클라이언트
     stylesForProxy[itemName] = {
       className: itemClassName,
     };
@@ -84,6 +89,7 @@ export default function hz(input: MainInputType) {
   // CSS 파일 작성하기
   writeNewCSS(stylesForCSS);
 
+  // styleForProxy 값이 변경될 때마다 호출
   return new Proxy(stylesForProxy, {
     get(target, prop) {
       if (typeof prop === "string") {
