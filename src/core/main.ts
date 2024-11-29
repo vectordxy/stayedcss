@@ -8,8 +8,9 @@ import {
   handlePseudoElements,
   isPseudoElements,
 } from "../syntax";
-import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+
 import { updateStyles } from "./updateStyles";
+import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
 
 export default function main(
   input: MainInputType,
@@ -59,7 +60,7 @@ export default function main(
       );
 
       if (resultOfCSS.length > 0) {
-        resultOfCSS.map((item) =>
+        resultOfCSS.forEach((item) =>
           result.unshift({
             className: itemClassName,
             style: `.${itemClassName} { ${item.style} }`,

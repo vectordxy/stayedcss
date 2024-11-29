@@ -1,16 +1,18 @@
-import { StyleType } from "../types";
-import { isRequiredUnits } from "./checkUnits";
+import { StyleType } from "../../types";
+import { isRequiredUnits } from "../checker/checkUnits";
 
-export const handleCombinators = (
+export const handlePseudoClasses = (
   elementKey: string,
   inputStyle: StyleType,
   className: string
 ) => {
-  let resultString = `${className} ${elementKey} { `;
+  let resultString = `.${className}${elementKey} { `;
 
+  // console.log(style);
   for (const key in inputStyle) {
     const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
     const styleItem = inputStyle[key];
+    // console.log(styleItem);
     if (typeof styleItem === "number") {
       resultString += `${styleKey}: ${styleItem}${
         isRequiredUnits(styleKey) ? "px" : ""
@@ -20,7 +22,8 @@ export const handleCombinators = (
     }
   }
 
-  resultString += "}";
+  resultString += `} `;
 
-  return { className: `${className} ${elementKey}`, style: resultString };
+  console.log(resultString);
+  return { className: `${className}${elementKey}`, style: resultString };
 };

@@ -1,5 +1,4 @@
-import { StyleType } from "../types";
-import { isRequiredUnits } from "./checkUnits";
+import { isRequiredUnits } from "../checker/checkUnits";
 
 export const handleGeneralCSS = (key: string, style: string | number) => {
   let resultString = "";

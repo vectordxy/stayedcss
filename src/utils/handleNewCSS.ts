@@ -1,13 +1,13 @@
 import { promises as fs } from "fs";
-import { JsonInput } from "../types";
+import { JsonType } from "../types";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
 
-export const writeNewCSS = async (input: JsonInput[]) => {
+export const writeNewCSS = async (input: JsonType[]) => {
   try {
     // 기존 JSON 데이터 읽기
-    let existingJson: JsonInput = {};
+    let existingJson: JsonType = {};
     try {
       const jsonData = await fs.readFile(jsonFilePath, "utf-8");
       existingJson = JSON.parse(jsonData);
@@ -16,7 +16,7 @@ export const writeNewCSS = async (input: JsonInput[]) => {
     }
 
     // 새로운 JSON 데이터 생성
-    const jsonResult: JsonInput = { ...existingJson };
+    const jsonResult: JsonType = { ...existingJson };
     let isUpdated = false; // 변경 여부 플래그
 
     for (const item of input) {
