@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import { JsonType } from "../types";
 
-const jsonFilePath = ".stylecache/buffer.json";
-const cssFilePath = ".stylecache/style.css";
+const jsonFilePath = "public/stylecache/buffer.json";
+const cssFilePath = "public/stylecache/style.css";
 
 export const writeNewCSS = async (input: JsonType[]) => {
   try {
