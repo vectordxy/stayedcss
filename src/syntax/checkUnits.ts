@@ -15,6 +15,7 @@ const unitRequiredProps = new Set([
   "padding-right",
   "padding-bottom",
   "padding-left",
+  "font-size",
   "top",
   "right",
   "bottom",

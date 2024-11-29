@@ -10,7 +10,7 @@ export interface StyleInputType {
 }
 
 export interface StylesForProxyType {
-  [key: string]: { className: string };
+  [key: string]: { className: string; style: string };
 }
 export type MainInputType = ComponentType & StyleInputType;
 export interface StyleOutputType {

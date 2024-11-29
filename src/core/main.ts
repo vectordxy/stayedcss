@@ -21,8 +21,8 @@ export default function hz(input: MainInputType) {
     ([key]) => key !== "componentName"
   );
 
-  const stylesForProxy: StylesForProxyType = {};
   const stylesForCSS: JsonInput[] = [];
+  const stylesForProxy: StylesForProxyType = {};
 
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
@@ -30,7 +30,10 @@ export default function hz(input: MainInputType) {
     const itemClassName = `${itemName}-${pathHash}${componentHash}`;
 
     let bufferGeneralCSS = "";
-
+    stylesForProxy[itemName] = {
+      className: "",
+      style: "",
+    };
     // 스타일 처리
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
@@ -43,7 +46,7 @@ export default function hz(input: MainInputType) {
               itemObjectStyle,
               itemClassName
             );
-            stylesForCSS.push(pResult);
+            stylesForCSS.unshift(pResult);
             break;
 
           case /^[>+~ ]/.test(key): // 조합자
@@ -52,7 +55,7 @@ export default function hz(input: MainInputType) {
               itemObjectStyle,
               itemClassName
             );
-            stylesForCSS.push(cResult);
+            stylesForCSS.unshift(cResult);
             break;
 
           case key in breakpoints: // 미디어쿼리 (반응형)
@@ -61,7 +64,15 @@ export default function hz(input: MainInputType) {
               itemObjectStyle,
               itemClassName
             );
-            stylesForCSS.push(mqResult);
+
+            if (breakpoints[key].includes("max-width")) {
+              stylesForCSS.unshift(mqResult);
+            } else if (breakpoints[key].includes("min-width")) {
+              stylesForCSS.push(mqResult);
+            } else {
+              console.warn(`Unknown breakpoint condition: ${breakpoints[key]}`);
+              stylesForCSS.push(mqResult);
+            }
             break;
 
           default: // 그외 일반 스타일
@@ -75,21 +86,22 @@ export default function hz(input: MainInputType) {
       }
     }
 
-    stylesForProxy[itemName] = {
-      className: itemClassName,
-    };
+    const finalCSS = `.${itemClassName} { ${bufferGeneralCSS}}`;
 
-    // 일반 스타일 처리
-    stylesForCSS.push({
+    stylesForCSS.unshift({
       className: itemClassName,
-      style: `.${itemClassName} { ${bufferGeneralCSS}};`,
+      style: finalCSS,
     });
+
+    stylesForProxy[itemName] = {
+      ...stylesForProxy[itemName],
+      className: itemClassName,
+      style: finalCSS,
+    };
   }
 
-  // CSS 파일 작성하기
   writeNewCSS(stylesForCSS);
 
-  // styleForProxy 값이 변경될 때마다 호출
   return new Proxy(stylesForProxy, {
     get(target, prop) {
       if (typeof prop === "string") {

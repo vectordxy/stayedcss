@@ -3,6 +3,7 @@ import { JsonInput } from "../types";
 
 const jsonFilePath = ".stylecache/buffer.json";
 const cssFilePath = ".stylecache/style.css";
+
 export const writeNewCSS = async (input: JsonInput[]) => {
   try {
     // 기존 JSON 데이터 읽기

@@ -28,7 +28,7 @@ export const handleMediaQuery = (
     }
     mediaQueryString += resultString;
   }
-  mediaQueryString += `} };`;
+  mediaQueryString += `} }`;
   return {
     className: `@media ${mediaQueryKey} .${className}`,
     style: mediaQueryString,
