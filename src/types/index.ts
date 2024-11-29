@@ -1,4 +1,5 @@
 export type JsonInput = Record<string, string>;
+
 export type MediaQueryInput = Record<string, string>;
 
 interface ComponentType {

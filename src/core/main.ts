@@ -1,20 +1,28 @@
-import { JsonInput, MainInputType, StylesForProxyType } from "../types";
+import {
+  JsonInput,
+  MainInputType,
+  MediaQueryInput,
+  StylesForProxyType,
+} from "../types";
 import { handleHash, writeNewCSS } from "../utils";
 import {
-  breakpoints,
   handleCombinators,
   handleGeneralCSS,
+  handleKeyframes,
   handleMediaQuery,
   handlePseudoElements,
   isPseudoElements,
 } from "../syntax";
+import { defaultBreakpoints } from "../syntax/handleBreakpoints";
 
-export default function hz(input: MainInputType) {
-  const target = "server";
+export default function main(
+  input: MainInputType,
+  config: any = { breakpoints: defaultBreakpoints, keyframes: undefined }
+) {
+  const { breakpoints, keyframes } = config;
 
-  const fullPath = __dirname;
-  const relativePath = fullPath.substring(fullPath.indexOf(target));
-  const pathHash = handleHash(relativePath).slice(0, 4);
+  const filePath = __dirname.substring(__dirname.indexOf("server"));
+  const pathHash = handleHash(filePath).slice(0, 4);
   const componentHash = handleHash(input.componentName).slice(0, 4);
 
   const styleData = Object.entries(input).filter(
@@ -23,7 +31,14 @@ export default function hz(input: MainInputType) {
 
   const stylesForCSS: JsonInput[] = [];
   const stylesForProxy: StylesForProxyType = {};
+  let kResult: JsonInput[] = [];
 
+  // 키프레임 애니메이션 처리
+  if (keyframes) {
+    kResult = handleKeyframes(keyframes);
+  }
+
+  // 애니메이션 처리
   for (let i = 0; i < styleData.length; i++) {
     const itemName = styleData[i][0];
     const itemStyle = styleData[i][1] as any;
@@ -34,6 +49,7 @@ export default function hz(input: MainInputType) {
       className: "",
       style: "",
     };
+
     // 스타일 처리
     for (const key in itemStyle) {
       if (itemStyle.hasOwnProperty(key)) {
@@ -64,15 +80,7 @@ export default function hz(input: MainInputType) {
               itemObjectStyle,
               itemClassName
             );
-
-            if (breakpoints[key].includes("max-width")) {
-              stylesForCSS.unshift(mqResult);
-            } else if (breakpoints[key].includes("min-width")) {
-              stylesForCSS.push(mqResult);
-            } else {
-              console.warn(`Unknown breakpoint condition: ${breakpoints[key]}`);
-              stylesForCSS.push(mqResult);
-            }
+            stylesForCSS.push(mqResult);
             break;
 
           default: // 그외 일반 스타일
@@ -100,7 +108,7 @@ export default function hz(input: MainInputType) {
     };
   }
 
-  writeNewCSS(stylesForCSS);
+  writeNewCSS([...kResult, ...stylesForCSS]);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {

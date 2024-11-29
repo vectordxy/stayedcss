@@ -1,12 +1,12 @@
 import { isRequiredUnits } from "./checkUnits";
 
-export const handleKeyframes = (keyframes: any, className: string) => {
+export const handleKeyframes = (keyframes: any) => {
   let resultString = "";
   let name = "";
-
+  const result = [];
   for (const keyframesName in keyframes) {
     name = keyframesName;
-    resultString += `@keyframes ${keyframesName} { `;
+    resultString = `@keyframes ${keyframesName} { `;
     const keyframesStyle = keyframes[keyframesName];
 
     for (const frameKey in keyframesStyle) {
@@ -27,7 +27,11 @@ export const handleKeyframes = (keyframes: any, className: string) => {
       resultString += `} `;
     }
     resultString += `} `;
+    result.push({
+      className: `@keyframes ${keyframesName}`,
+      style: resultString.trim(),
+    });
   }
 
-  return resultString.trim();
+  return result;
 };

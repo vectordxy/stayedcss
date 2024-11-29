@@ -1,11 +1,6 @@
 import { isRequiredUnits } from "./checkUnits";
 import { MediaQueryInput, StyleInputType } from "../types";
 
-export const breakpoints: MediaQueryInput = {
-  "@mobile": "(max-width: 768px)",
-  "@desktop": "(min-width: 769px)",
-};
-
 export const handleMediaQuery = (
   mediaQueryKey: string,
   style: StyleInputType,
