@@ -1,9 +1,4 @@
-import {
-  JsonInput,
-  MainInputType,
-  MediaQueryInput,
-  StylesForProxyType,
-} from "../types";
+import { JsonType, MainInputType, StylesForProxyType } from "../types";
 import { handleHash, writeNewCSS } from "../utils";
 import {
   handleCombinators,
@@ -24,14 +19,15 @@ export default function main(
   const filePath = __dirname.substring(__dirname.indexOf("server"));
   const pathHash = handleHash(filePath).slice(0, 4);
   const componentHash = handleHash(input.componentName).slice(0, 4);
+  const hash = `${pathHash}${componentHash}`;
 
   const styleData = Object.entries(input).filter(
     ([key]) => key !== "componentName"
   );
 
-  const stylesForCSS: JsonInput[] = [];
+  const stylesForCSS: JsonType[] = [];
   const stylesForProxy: StylesForProxyType = {};
-  let kResult: JsonInput[] = [];
+  let kResult: JsonType[] = [];
 
   // 키프레임 애니메이션 처리
   if (keyframes) {
@@ -39,72 +35,64 @@ export default function main(
   }
 
   // 애니메이션 처리
-  for (let i = 0; i < styleData.length; i++) {
-    const itemName = styleData[i][0];
-    const itemStyle = styleData[i][1] as any;
-    const itemClassName = `${itemName}-${pathHash}${componentHash}`;
+  for (let item of styleData) {
+    const itemName = item[0];
+    const itemStyle = item[1];
+    const itemClassName = `${itemName}-${hash}`;
 
     let bufferGeneralCSS = "";
+
     stylesForProxy[itemName] = {
       className: "",
       style: "",
     };
 
-    // 스타일 처리
-    for (const key in itemStyle) {
-      if (itemStyle.hasOwnProperty(key)) {
-        const itemKey = key;
-        const itemObjectStyle = itemStyle[key];
+    if (itemName in breakpoints) {
+      // 미디어쿼리
+      const mqResult = handleMediaQuery(breakpoints[itemName], itemStyle, hash);
+      stylesForCSS.push(mqResult);
+    } else {
+      for (const elementKey in itemStyle) {
+        const elementStyle = itemStyle[elementKey] as any;
+
         switch (true) {
-          case isPseudoElements(key): // 가상요소
+          case isPseudoElements(elementKey):
+            console.log(elementStyle); // 가상요소
             const pResult = handlePseudoElements(
-              itemKey,
-              itemObjectStyle,
+              elementKey,
+              elementStyle,
               itemClassName
             );
             stylesForCSS.unshift(pResult);
             break;
 
-          case /^[>+~ ]/.test(key): // 조합자
+          case /^[>+~ ]/.test(elementKey): // 조합자
             const cResult = handleCombinators(
-              itemKey,
-              itemObjectStyle,
+              elementKey,
+              elementStyle,
               itemClassName
             );
             stylesForCSS.unshift(cResult);
             break;
 
-          case key in breakpoints: // 미디어쿼리 (반응형)
-            const mqResult = handleMediaQuery(
-              breakpoints[key],
-              itemObjectStyle,
-              itemClassName
-            );
-            stylesForCSS.push(mqResult);
-            break;
-
           default: // 그외 일반 스타일
-            bufferGeneralCSS += handleGeneralCSS(
-              itemKey,
-              itemStyle,
-              itemClassName
-            );
+            bufferGeneralCSS += handleGeneralCSS(elementKey, elementStyle);
             break;
         }
       }
+
+      const finalCSS = `.${itemClassName} { ${bufferGeneralCSS}}`;
+
+      stylesForCSS.unshift({
+        className: itemClassName,
+        style: finalCSS,
+      });
     }
-
-    const finalCSS = `.${itemClassName} { ${bufferGeneralCSS}}`;
-
-    stylesForCSS.unshift({
-      className: itemClassName,
-      style: finalCSS,
-    });
 
     stylesForProxy[itemName] = {
       ...stylesForProxy[itemName],
       className: itemClassName,
-      style: finalCSS,
+      style: "",
     };
   }
 

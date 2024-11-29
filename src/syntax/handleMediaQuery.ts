@@ -10,7 +10,7 @@ export const handleMediaQuery = (
   inputStyle: StyleType,
   hash: string
 ) => {
-  let mediaQueryString = `@media ${mediaQueryKey} {`;
+  let mediaQueryString = `@media ${mediaQueryKey} { `;
   const resultOfCSS = [];
   const resultOfGeneralCSS = [];
 
@@ -22,7 +22,7 @@ export const handleMediaQuery = (
 
       for (const elementKey in itemStyle) {
         const elementStyle = itemStyle[elementKey];
-        // console.log(elementStyle);
+
         switch (true) {
           case isPseudoElements(elementKey): // 가상요소
             const pResult = handlePseudoElements(
@@ -58,7 +58,7 @@ export const handleMediaQuery = (
   const result = [...resultOfGeneralCSS, ...resultOfCSS];
 
   for (let el of result) {
-    mediaQueryString += el.style;
+    mediaQueryString += `${el.style} `;
   }
 
   mediaQueryString += "}";
