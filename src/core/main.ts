@@ -1,13 +1,6 @@
 import { JsonType, MainInputType, StylesForProxyType } from "../types";
 import { handleHash, writeNewCSS } from "../utils";
-import {
-  handleCombinators,
-  handleGeneralCSS,
-  handleKeyframes,
-  handleMediaQuery,
-  handlePseudoElements,
-  isPseudoElements,
-} from "../syntax";
+import { handleKeyframes, handleMediaQuery } from "../syntax";
 
 import { updateStyles } from "./updateStyles";
 import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
@@ -28,6 +21,7 @@ export default function main(
   );
 
   let result: JsonType[] = [];
+
   const stylesForProxy: StylesForProxyType = {};
   let keyframesResult: JsonType[] = [];
 
@@ -42,8 +36,6 @@ export default function main(
     const itemStyle = item[1];
     const itemClassName = `${itemName}-${hash}`;
 
-    let bufferGeneralCSS = "";
-
     stylesForProxy[itemName] = {
       className: "",
       style: "",
@@ -54,27 +46,8 @@ export default function main(
       const mqResult = handleMediaQuery(breakpoints[itemName], itemStyle, hash);
       result.push(mqResult);
     } else {
-      const { resultOfCSS, resultOfGeneralCSS } = updateStyles(
-        itemStyle,
-        itemClassName
-      );
-
-      if (resultOfCSS.length > 0) {
-        resultOfCSS.forEach((item) =>
-          result.unshift({
-            className: itemClassName,
-            style: `.${itemClassName} { ${item.style} }`,
-          })
-        );
-      }
-
-      if (resultOfGeneralCSS !== "") {
-        bufferGeneralCSS = resultOfGeneralCSS;
-        result.push({
-          className: itemClassName,
-          style: `.${itemClassName} { ${bufferGeneralCSS} }`,
-        });
-      }
+      // 그 외
+      result = [...updateStyles(itemStyle, itemName, hash), ...result];
     }
 
     stylesForProxy[itemName] = {

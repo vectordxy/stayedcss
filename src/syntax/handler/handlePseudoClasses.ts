@@ -24,6 +24,5 @@ export const handlePseudoClasses = (
 
   resultString += `} `;
 
-  console.log(resultString);
   return { className: `${className}${elementKey}`, style: resultString };
 };

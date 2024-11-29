@@ -1,16 +1,19 @@
 import { isRequiredUnits } from "../checker/checkUnits";
 
-export const handleGeneralCSS = (key: string, style: string | number) => {
+export const handleGeneralCSS = (
+  elementKey: string,
+  inputStyle: string | number,
+  className: string
+) => {
   let resultString = "";
+  const styleKey = elementKey.replace(/([A-Z])/g, "-$1").toLowerCase();
 
-  const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
-  const styleItem = style;
-  if (typeof styleItem === "number") {
-    resultString += `${styleKey}: ${styleItem}${
+  if (typeof inputStyle === "number") {
+    resultString += `${styleKey}: ${inputStyle}${
       isRequiredUnits(styleKey) ? "px" : ""
     }; `;
   } else {
-    resultString += `${styleKey}: ${styleItem}; `;
+    resultString += `${styleKey}: ${inputStyle}; `;
   }
 
   return resultString;
