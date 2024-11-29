@@ -9,6 +9,7 @@ import {
   isPseudoElements,
 } from "../syntax";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import { updateStyles } from "./updateStyles";
 
 export default function main(
   input: MainInputType,
@@ -25,13 +26,13 @@ export default function main(
     ([key]) => key !== "componentName"
   );
 
-  const stylesForCSS: JsonType[] = [];
+  let result: JsonType[] = [];
   const stylesForProxy: StylesForProxyType = {};
-  let kResult: JsonType[] = [];
+  let keyframesResult: JsonType[] = [];
 
   // 키프레임 애니메이션 처리
   if (keyframes) {
-    kResult = handleKeyframes(keyframes);
+    keyframesResult = handleKeyframes(keyframes);
   }
 
   // 애니메이션 처리
@@ -50,43 +51,29 @@ export default function main(
     if (itemName in breakpoints) {
       // 미디어쿼리
       const mqResult = handleMediaQuery(breakpoints[itemName], itemStyle, hash);
-      stylesForCSS.push(mqResult);
+      result.push(mqResult);
     } else {
-      for (const elementKey in itemStyle) {
-        const elementStyle = itemStyle[elementKey] as any;
+      const { resultOfCSS, resultOfGeneralCSS } = updateStyles(
+        itemStyle,
+        itemClassName
+      );
 
-        switch (true) {
-          case isPseudoElements(elementKey):
-            console.log(elementStyle); // 가상요소
-            const pResult = handlePseudoElements(
-              elementKey,
-              elementStyle,
-              itemClassName
-            );
-            stylesForCSS.unshift(pResult);
-            break;
-
-          case /^[>+~ ]/.test(elementKey): // 조합자
-            const cResult = handleCombinators(
-              elementKey,
-              elementStyle,
-              itemClassName
-            );
-            stylesForCSS.unshift(cResult);
-            break;
-
-          default: // 그외 일반 스타일
-            bufferGeneralCSS += handleGeneralCSS(elementKey, elementStyle);
-            break;
-        }
+      if (resultOfCSS.length > 0) {
+        resultOfCSS.map((item) =>
+          result.unshift({
+            className: itemClassName,
+            style: `.${itemClassName} { ${item.style} }`,
+          })
+        );
       }
 
-      const finalCSS = `.${itemClassName} { ${bufferGeneralCSS}}`;
-
-      stylesForCSS.unshift({
-        className: itemClassName,
-        style: finalCSS,
-      });
+      if (resultOfGeneralCSS !== "") {
+        bufferGeneralCSS = resultOfGeneralCSS;
+        result.push({
+          className: itemClassName,
+          style: `.${itemClassName} { ${bufferGeneralCSS} }`,
+        });
+      }
     }
 
     stylesForProxy[itemName] = {
@@ -96,7 +83,7 @@ export default function main(
     };
   }
 
-  writeNewCSS([...kResult, ...stylesForCSS]);
+  writeNewCSS([...keyframesResult, ...result]);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {

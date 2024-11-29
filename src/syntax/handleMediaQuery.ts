@@ -1,9 +1,5 @@
-import { isRequiredUnits } from "./checkUnits";
 import { StyleType } from "../types";
-import { isPseudoElements } from "./checkPseudoElements";
-import { handlePseudoElements } from "./handlePseudoElements";
-import { handleCombinators } from "./handleCombinator";
-import { handleGeneralCSS } from "./handleGeneralCSS";
+import { updateStyles } from "../core/updateStyles";
 
 export const handleMediaQuery = (
   mediaQueryKey: string,
@@ -11,8 +7,7 @@ export const handleMediaQuery = (
   hash: string
 ) => {
   let mediaQueryString = `@media ${mediaQueryKey} { `;
-  const resultOfCSS = [];
-  const resultOfGeneralCSS = [];
+  const result: any = [];
 
   for (const key in inputStyle) {
     if (inputStyle.hasOwnProperty(key)) {
@@ -20,48 +15,35 @@ export const handleMediaQuery = (
       const itemStyle = inputStyle[key] as any;
       let bufferGeneralCSS = "";
 
-      for (const elementKey in itemStyle) {
-        const elementStyle = itemStyle[elementKey];
+      const { resultOfCSS, resultOfGeneralCSS } = updateStyles(
+        itemStyle,
+        itemClassName
+      );
 
-        switch (true) {
-          case isPseudoElements(elementKey): // 가상요소
-            const pResult = handlePseudoElements(
-              elementKey,
-              elementStyle,
-              itemClassName
-            );
-            resultOfCSS.unshift(pResult);
-            break;
-
-          case /^[>+~ ]/.test(elementKey): // 조합자
-            const cResult = handleCombinators(
-              elementKey,
-              elementStyle,
-              itemClassName
-            );
-            resultOfCSS.unshift(cResult);
-            break;
-
-          default: // 그외 일반 스타일
-            bufferGeneralCSS += handleGeneralCSS(elementKey, elementStyle);
-            break;
-        }
+      if (resultOfCSS.length > 0) {
+        resultOfCSS.map((item) =>
+          result.push({
+            className: itemClassName,
+            style: `.${itemClassName} { ${item.style} }`,
+          })
+        );
       }
 
-      resultOfGeneralCSS.push({
-        className: itemClassName,
-        style: `.${itemClassName} { ${bufferGeneralCSS} }`,
-      });
+      if (resultOfGeneralCSS !== "") {
+        bufferGeneralCSS = resultOfGeneralCSS;
+        result.push({
+          className: itemClassName,
+          style: `.${itemClassName} { ${bufferGeneralCSS} }`,
+        });
+      }
     }
   }
-
-  const result = [...resultOfGeneralCSS, ...resultOfCSS];
 
   for (let el of result) {
     mediaQueryString += `${el.style} `;
   }
 
-  mediaQueryString += "}";
+  mediaQueryString += `} `;
 
   return {
     className: `@media-${mediaQueryKey}-${hash}`,
