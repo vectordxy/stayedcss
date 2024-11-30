@@ -6,6 +6,8 @@ import {
   isPseudoClasses,
   isPseudoElements,
 } from "../syntax";
+import { isDarkMode } from "../syntax/checker/checkDarkMode";
+import { handleDarkMode } from "../syntax/handler/handleDarkMode";
 
 import { StyleType } from "../types";
 
@@ -39,6 +41,11 @@ export const updateStyles = (
         result.unshift(pseudoClasses);
         break;
 
+      //   case isDarkMode(elementKey): // 가상요소
+      //     const darkmode = handleDarkMode(elementKey, elementStyle, itemName);
+      //     result.unshift(darkmode);
+      //     break;
+
       case /^[>+~ ]/.test(elementKey): // 조합자
         const combinators = handleCombinators(
           elementKey,
@@ -64,5 +71,6 @@ export const updateStyles = (
     style: `.${itemName} { ${bufferGeneralCSS} }`,
   });
 
+  //   console.log(result);
   return result;
 };
