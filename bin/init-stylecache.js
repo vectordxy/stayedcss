@@ -3,7 +3,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-const styleCacheDir = "./stylecache";
+const styleCacheDir = "public/stylecache";
 const cssFilePath = path.join(styleCacheDir, "style.css");
 const jsonFilePath = path.join(styleCacheDir, "buffer.json");
 
