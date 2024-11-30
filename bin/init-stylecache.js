@@ -5,6 +5,7 @@ import path from "path";
 
 const styleCacheDir = "public/stylecache";
 const cssFilePath = path.join(styleCacheDir, "style.css");
+const darkmodePath = path.join(styleCacheDir, "darkmode.css");
 const jsonFilePath = path.join(styleCacheDir, "buffer.json");
 
 async function initStyleCache() {
@@ -15,6 +16,10 @@ async function initStyleCache() {
 
     // style.css 파일 생성
     await fs.writeFile(cssFilePath, "", "utf-8");
+    console.log(`📝 File created: ${cssFilePath}`);
+
+    // darkmode.css 파일 생성
+    await fs.writeFile(darkmodePath, "", "utf-8");
     console.log(`📝 File created: ${cssFilePath}`);
 
     // buffer.json 파일 생성
