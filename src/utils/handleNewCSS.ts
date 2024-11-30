@@ -12,7 +12,7 @@ export const writeNewCSS = async (input: JsonType[]) => {
       const jsonData = await fs.readFile(jsonFilePath, "utf-8");
       existingJson = JSON.parse(jsonData);
     } catch {
-      console.log("No existing JSON file found. Creating a new one.");
+      // console.log("No existing JSON file found. Creating a new one.");
     }
 
     // 새로운 JSON 데이터 생성
@@ -35,7 +35,7 @@ export const writeNewCSS = async (input: JsonType[]) => {
 
     // 변경이 없으면 종료
     if (!isUpdated) {
-      console.log("No updates to JSON or CSS files.");
+      // console.log("No updates to JSON or CSS files.");
       return; // 추가 작업 불필요
     }
 
@@ -50,7 +50,7 @@ export const writeNewCSS = async (input: JsonType[]) => {
     const cssContent = Object.values(jsonResult).join("\n");
     await fs.writeFile(cssFilePath, cssContent, "utf-8");
 
-    console.log("CSS file updated successfully.");
+    // console.log("CSS file updated successfully.");
   } catch (error) {
     console.error(`Failed to process CSS: ${error}`);
   }

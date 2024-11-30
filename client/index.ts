@@ -1,1 +1,1 @@
-export * from "./api/toggleDarkMode";
+export * from "./api/handleMode";
