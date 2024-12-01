@@ -11,12 +11,11 @@ import { StyleObjectItemType } from "../../types";
 
 export const updateStyles = (
   itemStyle: StyleObjectItemType,
-  className: string,
-  hash: string
+  itemClassName: string
 ) => {
   let result: { className: string; style: string }[] = [];
   let bufferGeneralCSS = "";
-  const itemName = `${className}-${hash}`;
+  const itemName = itemClassName;
   for (const elementKey in itemStyle) {
     const elementStyle = itemStyle[elementKey] as any;
 
@@ -52,7 +51,7 @@ export const updateStyles = (
         const general = handleGeneralCSS(
           elementKey,
           elementStyle,
-          `${className}-${hash}`
+          itemClassName
         );
         bufferGeneralCSS += general;
         break;

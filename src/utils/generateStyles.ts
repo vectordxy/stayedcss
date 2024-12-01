@@ -12,7 +12,7 @@ import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
 import { handleHash, writeCSS } from "../utils";
 import { updateStyles } from "../utils/applyStyles";
 
-export const genenrateStyles = (
+export const generateStyles = (
   input: MainInputType,
   inputMode: "default" | "dark",
   config?: ConfigType
@@ -50,7 +50,10 @@ export const genenrateStyles = (
   for (let item of styleData) {
     const itemName = item[0];
     const itemStyle = item[1] as unknown as StyleObjectItemType;
-    const itemClassName = `${itemName}-${hash}`;
+    const itemClassName =
+      inputMode === "default"
+        ? `${itemName}-${hash}`
+        : `dark .${itemName}-${hash}`;
 
     stylesForProxy[itemName] = "";
 
@@ -59,22 +62,22 @@ export const genenrateStyles = (
       const mqResult = handleMediaQuery(
         inputBreakpoints[itemName],
         itemStyle,
-        hash
+        itemClassName
       );
       result.push(mqResult);
     } else {
       // 그 외
-      result = [...updateStyles(itemStyle, itemName, hash), ...result];
+      result = [...updateStyles(itemStyle, itemClassName), ...result];
     }
     stylesForProxy[itemName] = itemClassName;
   }
 
-  writeCSS([...keyframesResult, ...result], inputMode);
+  writeCSS([...keyframesResult, ...result]);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {
       if (typeof prop === "string" && prop in target) {
-        return target[prop]; // className 반환
+        return target[prop];
       } else {
         console.warn(`Property "${String(prop)}" does not exist on styles.`);
         return undefined;

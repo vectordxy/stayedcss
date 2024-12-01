@@ -19,15 +19,3 @@ export type KeyframesType = {
     [percentage: string]: KeyframeStyle;
   };
 };
-export interface ConfigType {
-  breakpoints?: { [key: string]: string };
-  keyframes?:
-    | {
-        [keyframesKey: string]: {
-          [itemKey: string]: {
-            [elementKey: string]: string | number;
-          };
-        };
-      }
-    | {};
-}

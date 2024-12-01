@@ -4,7 +4,7 @@ import { StyleObjectItemType } from "../../../types";
 export const handleMediaQuery = (
   mediaQueryKey: string,
   inputStyle: StyleObjectItemType,
-  hash: string
+  className: string
 ) => {
   let mediaQueryString = `@media ${mediaQueryKey} { `;
   let result: { className: string; style: string }[] = [];
@@ -13,7 +13,7 @@ export const handleMediaQuery = (
     if (inputStyle.hasOwnProperty(key)) {
       const itemClassName = key;
       const itemStyle = inputStyle[key] as any;
-      result = [...result, ...updateStyles(itemStyle, itemClassName, hash)];
+      result = [...result, ...updateStyles(itemStyle, itemClassName)];
     }
   }
 
@@ -23,7 +23,7 @@ export const handleMediaQuery = (
 
   mediaQueryString += `} `;
   return {
-    className: `@media-${mediaQueryKey}-${hash}`,
+    className: `@media-${mediaQueryKey}-${className}`,
     style: mediaQueryString,
   };
 };
