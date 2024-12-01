@@ -4,8 +4,8 @@ import { JsonType } from "../../types";
 export const writeCSS = async (input: JsonType[], type: string) => {
   const jsonFilePath =
     type === "default"
-      ? "public/stylecache/buffer.json"
-      : "public/stylecache/darkmode-buffer.json";
+      ? "public/stylecache/style.json"
+      : "public/stylecache/darkmode.json";
   const cssFilePath =
     type === "default"
       ? "public/stylecache/style.css"
