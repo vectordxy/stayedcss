@@ -1,5 +1,5 @@
 {
-  "name": "css-lib-project",
+  "name": "stillpaint",
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
@@ -10,7 +10,7 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "test-my-lib": "./bin/init-stylecache.js"
+    "stillpaint": "./bin/init.js"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",

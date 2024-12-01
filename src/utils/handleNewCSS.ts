@@ -2,8 +2,8 @@ import { promises as fs } from "fs";
 import { JsonType } from "../../types";
 
 export const writeCSS = async (input: JsonType[]) => {
-  const jsonFilePath = "app/stylecache/style.json";
-  const cssFilePath = "app/stylecache/style.css";
+  const jsonFilePath = "app/stillpaint/style.json";
+  const cssFilePath = "app/stillpaint/style.css";
 
   try {
     // 기존 JSON 데이터 읽기
