@@ -9,6 +9,7 @@ import {
   JsonType,
   StylesForProxyType,
   StyleObjectItemType,
+  BreakPointsType,
 } from "../../types";
 
 export default function main(
@@ -19,6 +20,8 @@ export default function main(
   }
 ) {
   const { breakpoints, keyframes } = config;
+
+  let inputBreakpoints: BreakPointsType = breakpoints || defaultBreakpoints;
 
   const filePath = __dirname.substring(__dirname.indexOf("server"));
   const pathHash = handleHash(filePath).slice(0, 4);
@@ -47,9 +50,13 @@ export default function main(
 
     stylesForProxy[itemName] = "";
 
-    if (itemName in breakpoints) {
+    if (itemName in inputBreakpoints) {
       // 미디어쿼리
-      const mqResult = handleMediaQuery(breakpoints[itemName], itemStyle, hash);
+      const mqResult = handleMediaQuery(
+        inputBreakpoints[itemName],
+        itemStyle,
+        hash
+      );
       result.push(mqResult);
     } else {
       // 그 외

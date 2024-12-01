@@ -20,8 +20,8 @@ export type KeyframesType = {
   };
 };
 export interface ConfigType {
-  breakpoints: { [key: string]: string };
-  keyframes:
+  breakpoints?: { [key: string]: string };
+  keyframes?:
     | {
         [keyframesKey: string]: {
           [itemKey: string]: {
@@ -29,5 +29,5 @@ export interface ConfigType {
           };
         };
       }
-    | undefined;
+    | {};
 }
