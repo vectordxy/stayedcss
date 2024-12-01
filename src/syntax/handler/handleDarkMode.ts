@@ -1,9 +1,9 @@
-import { StyleType } from "../../types";
+import { StyleObjectItemType } from "../../../types";
 import { isRequiredUnits } from "../checker/checkUnits";
 
 export const handleDarkMode = (
   elementKey: string,
-  inputStyle: StyleType,
+  inputStyle: StyleObjectItemType,
   className: string
 ) => {
   let resultString = `.dark .${className} { `;

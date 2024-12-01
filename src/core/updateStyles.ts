@@ -6,13 +6,11 @@ import {
   isPseudoClasses,
   isPseudoElements,
 } from "../syntax";
-import { isDarkMode } from "../syntax/checker/checkDarkMode";
-import { handleDarkMode } from "../syntax/handler/handleDarkMode";
 
-import { StyleType } from "../types";
+import { StyleObjectItemType } from "../../types";
 
 export const updateStyles = (
-  itemStyle: StyleType,
+  itemStyle: StyleObjectItemType,
   className: string,
   hash: string
 ) => {
@@ -41,7 +39,7 @@ export const updateStyles = (
         result.unshift(pseudoClasses);
         break;
 
-      //   case isDarkMode(elementKey): // 가상요소
+      //   case isDarkMode(elementKey): // 다크모드
       //     const darkmode = handleDarkMode(elementKey, elementStyle, itemName);
       //     result.unshift(darkmode);
       //     break;

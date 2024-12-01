@@ -1,9 +1,9 @@
 import { updateStyles } from "../../core/updateStyles";
-import { StyleType } from "../../types";
+import { StyleObjectItemType } from "../../../types";
 
 export const handleMediaQuery = (
   mediaQueryKey: string,
-  inputStyle: StyleType,
+  inputStyle: StyleObjectItemType,
   hash: string
 ) => {
   let mediaQueryString = `@media ${mediaQueryKey} { `;

@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { JsonType } from "../types";
+import { JsonType } from "../../types";
 
 const jsonFilePath = "public/stylecache/buffer.json";
 const cssFilePath = "public/stylecache/style.css";

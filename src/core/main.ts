@@ -1,19 +1,28 @@
-import { JsonType, MainInputType, StylesForProxyType } from "../types";
 import { handleHash, writeNewCSS } from "../utils";
 import { handleKeyframes, handleMediaQuery } from "../syntax";
 
 import { updateStyles } from "./updateStyles";
 import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
+import {
+  MainInputType,
+  ConfigType,
+  JsonType,
+  StylesForProxyType,
+  StyleObjectItemType,
+} from "../../types";
 
 export default function main(
   input: MainInputType,
-  config: any = { breakpoints: defaultBreakpoints, keyframes: undefined }
+  config: ConfigType = {
+    breakpoints: defaultBreakpoints,
+    keyframes: undefined,
+  }
 ) {
   const { breakpoints, keyframes } = config;
 
   const filePath = __dirname.substring(__dirname.indexOf("server"));
   const pathHash = handleHash(filePath).slice(0, 4);
-  const componentHash = handleHash(input.componentName).slice(0, 4);
+  const componentHash = handleHash(input.componentName as string).slice(0, 4);
   const hash = `${pathHash}${componentHash}`;
 
   const styleData = Object.entries(input).filter(
@@ -33,13 +42,10 @@ export default function main(
   // 애니메이션 처리
   for (let item of styleData) {
     const itemName = item[0];
-    const itemStyle = item[1];
+    const itemStyle = item[1] as unknown as StyleObjectItemType;
     const itemClassName = `${itemName}-${hash}`;
 
-    stylesForProxy[itemName] = {
-      className: "",
-      style: "",
-    };
+    stylesForProxy[itemName] = "";
 
     if (itemName in breakpoints) {
       // 미디어쿼리
@@ -49,29 +55,18 @@ export default function main(
       // 그 외
       result = [...updateStyles(itemStyle, itemName, hash), ...result];
     }
-
-    stylesForProxy[itemName] = {
-      ...stylesForProxy[itemName],
-      className: itemClassName,
-      style: "",
-    };
+    stylesForProxy[itemName] = itemClassName;
   }
 
   writeNewCSS([...keyframesResult, ...result]);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {
-      if (typeof prop === "string") {
-        if (
-          typeof target[prop] === "object" &&
-          target[prop] !== null &&
-          "className" in target[prop]
-        ) {
-          return target[prop].className;
-        } else {
-          console.warn(`Property "${String(prop)}" does not exist on styles.`);
-          return undefined;
-        }
+      if (typeof prop === "string" && prop in target) {
+        return target[prop]; // className 반환
+      } else {
+        console.warn(`Property "${String(prop)}" does not exist on styles.`);
+        return undefined;
       }
     },
   });
