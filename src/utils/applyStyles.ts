@@ -63,6 +63,5 @@ export const updateStyles = (
     style: `.${itemName} { ${bufferGeneralCSS} }`,
   });
 
-  //   console.log(result);
   return result;
 };

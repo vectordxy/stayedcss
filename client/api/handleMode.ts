@@ -1,4 +1,4 @@
-export const handleMode = async (mode: "light" | "dark") => {
+export const changeScreenMode = async (mode: "light" | "dark") => {
   document.body.classList.remove("dark", "light");
   document.body.classList.add(mode);
 
