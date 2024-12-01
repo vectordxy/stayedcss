@@ -1,1 +1,1 @@
-export { default as main } from "./core/main";
+export * from "./core/main";

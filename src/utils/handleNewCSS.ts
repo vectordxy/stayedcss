@@ -1,10 +1,15 @@
 import { promises as fs } from "fs";
 import { JsonType } from "../../types";
 
-const jsonFilePath = "public/stylecache/buffer.json";
-const cssFilePath = "public/stylecache/style.css";
-
-export const writeNewCSS = async (input: JsonType[]) => {
+export const writeCSS = async (input: JsonType[], type: string) => {
+  const jsonFilePath =
+    type === "default"
+      ? "public/stylecache/buffer.json"
+      : "public/stylecache/darkmode-buffer.json";
+  const cssFilePath =
+    type === "default"
+      ? "public/stylecache/style.css"
+      : "public/stylecache/darkmode.css";
   try {
     // 기존 JSON 데이터 읽기
     let existingJson: JsonType = {};

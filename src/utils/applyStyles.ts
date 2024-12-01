@@ -39,11 +39,6 @@ export const updateStyles = (
         result.unshift(pseudoClasses);
         break;
 
-      //   case isDarkMode(elementKey): // 다크모드
-      //     const darkmode = handleDarkMode(elementKey, elementStyle, itemName);
-      //     result.unshift(darkmode);
-      //     break;
-
       case /^[>+~ ]/.test(elementKey): // 조합자
         const combinators = handleCombinators(
           elementKey,
