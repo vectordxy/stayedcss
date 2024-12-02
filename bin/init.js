@@ -3,7 +3,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-const stayedcssDir = "public/stayedcss";
+const stayedcssDir = "stayedcss";
 const cssFilePath = path.join(stayedcssDir, "style.css");
 const jsonFilePath = path.join(stayedcssDir, "style.json");
 
