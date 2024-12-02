@@ -10,5 +10,5 @@
     "declarationDir": "./dist",
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "client/**/*", "types/**/*", "bin/**/*"]
+  "include": ["src/**/*"]
 }

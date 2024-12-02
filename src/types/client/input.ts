@@ -1,5 +1,5 @@
-import { BreakPointsType } from "../src/file";
-import { KeyframesType, StyleObjectItemType } from "../src/style";
+import { BreakPointsType } from "../server/file";
+import { KeyframesType, StyleObjectItemType } from "../server/style";
 
 export type MainInputType = {
   [key: string]: StyleObjectItemType | string;

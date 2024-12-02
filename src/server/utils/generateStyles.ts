@@ -9,8 +9,8 @@ import {
 } from "../../types";
 import { handleKeyframes, handleMediaQuery } from "../syntax";
 import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
-import { handleHash, writeCSS } from "../utils";
-import { updateStyles } from "../utils/applyStyles";
+import { handleHash, writeCSS } from ".";
+import { updateStyles } from "./applyStyles";
 
 export const generateStyles = (
   input: MainInputType,
