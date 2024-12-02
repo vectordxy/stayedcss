@@ -6,13 +6,11 @@ import path from "path";
 const stayedcssDir = "stayedcss";
 const cssFilePath = path.join(stayedcssDir, "style.css");
 
-async function initstayedcss() {
+async function initStayedcss() {
   try {
-    // stayedcss 디렉토리 생성
     await fs.mkdir(stayedcssDir, { recursive: true });
     console.log(`📂 Directory created: ${stayedcssDir}`);
 
-    // style.css 파일 생성
     await fs.writeFile(cssFilePath, "", "utf-8");
     console.log(`📝 File created: ${cssFilePath}`);
 
@@ -22,4 +20,4 @@ async function initstayedcss() {
   }
 }
 
-initstayedcss();
+initStayedcss();

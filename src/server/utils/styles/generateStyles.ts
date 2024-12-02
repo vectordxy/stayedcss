@@ -21,7 +21,7 @@ export const generateStyles = (
 ) => {
   let inputBreakpoints: BreakPointsType = defaultBreakpoints;
   let inputKeyframes: KeyframesType = {};
-  console.log(__dirname);
+
   if (config) {
     const { breakpoints, keyframes } = config;
 
@@ -29,10 +29,7 @@ export const generateStyles = (
     inputKeyframes = keyframes || {};
   }
 
-  const filePath = __dirname.substring(__dirname.indexOf("app"));
-  const pathHash = handleHash(filePath).slice(0, 4);
-  const componentHash = handleHash(input.componentName as string).slice(0, 4);
-  const hash = `${pathHash}${componentHash}`;
+  const componentHash = handleHash(input.componentName as string).slice(0, 8);
 
   const styleData = Object.entries(input).filter(
     ([key]) => key !== "componentName"
@@ -54,8 +51,8 @@ export const generateStyles = (
     const itemStyle = item[1] as unknown as StyleObjectItemType;
     const itemClassName =
       inputMode === "default"
-        ? `${itemName}-${hash}`
-        : `dark .${itemName}-${hash}`;
+        ? `${itemName}-${componentHash}`
+        : `dark .${itemName}-${componentHash}`;
 
     stylesForProxy[itemName] = "";
 
@@ -74,11 +71,7 @@ export const generateStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  writeCSS(
-    [...keyframesResult, ...result],
-    filePath,
-    input.componentName as string
-  );
+  writeCSS([...keyframesResult, ...result], input.componentName as string);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {
