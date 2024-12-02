@@ -1,13 +1,13 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-export const addImportToFile = async () => {
+export const addImportToFile = async (folderName: string) => {
   try {
     // JSON 파일 경로
     const filePath = path.join(process.cwd(), "stayedcss", "style.json");
 
     // 추가할 @import 문자열
-    const importStatement = '@import "./style-12345";';
+    const importStatement = `@import ./${folderName}/style.css;`;
 
     // 파일 읽기
     let data = await fs.readFile(filePath, "utf-8");

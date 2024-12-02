@@ -6,10 +6,12 @@ import {
   MainInputType,
   StyleObjectItemType,
   StylesForProxyType,
-} from "../../types";
-import { handleKeyframes, handleMediaQuery } from "../syntax";
-import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
-import { handleHash, writeCSS } from ".";
+} from "../../../types";
+import { handleKeyframes, handleMediaQuery } from "../../syntax";
+import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
+import { handleHash } from "../files/handleHash";
+import { writeCSS } from "../files/handleNewCSS";
+
 import { updateStyles } from "./applyStyles";
 
 export const generateStyles = (
@@ -19,7 +21,7 @@ export const generateStyles = (
 ) => {
   let inputBreakpoints: BreakPointsType = defaultBreakpoints;
   let inputKeyframes: KeyframesType = {};
-
+  console.log(__dirname);
   if (config) {
     const { breakpoints, keyframes } = config;
 
@@ -27,7 +29,7 @@ export const generateStyles = (
     inputKeyframes = keyframes || {};
   }
 
-  const filePath = __dirname.substring(__dirname.indexOf("server"));
+  const filePath = __dirname.substring(__dirname.indexOf("app"));
   const pathHash = handleHash(filePath).slice(0, 4);
   const componentHash = handleHash(input.componentName as string).slice(0, 4);
   const hash = `${pathHash}${componentHash}`;
@@ -72,7 +74,11 @@ export const generateStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  writeCSS([...keyframesResult, ...result]);
+  writeCSS(
+    [...keyframesResult, ...result],
+    filePath,
+    input.componentName as string
+  );
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {

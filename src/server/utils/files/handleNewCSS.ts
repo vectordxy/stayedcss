@@ -1,57 +1,62 @@
 import { promises as fs } from "fs";
+import path from "path";
 import { JsonType } from "../../../types";
 
-export const writeCSS = async (input: JsonType[]) => {
-  const jsonFilePath = "stayedcss/style.json";
-  const cssFilePath = "stayedcss/style.css";
+export const writeCSS = async (
+  input: JsonType[],
+  pageName: string,
+  componentName: string
+) => {
+  const cssFilePath = `stayedcss/${pageName}/${componentName}/style.css`;
+
+  const ensureDirectoryExists = async (filePath: string) => {
+    const dir = path.dirname(filePath);
+    try {
+      await fs.access(dir);
+    } catch {
+      await fs.mkdir(dir, { recursive: true });
+      console.log(`Directory created: ${dir}`);
+    }
+  };
 
   try {
-    // 기존 JSON 데이터 읽기
-    let existingJson: JsonType = {};
-    try {
-      const jsonData = await fs.readFile(jsonFilePath, "utf-8");
-      existingJson = JSON.parse(jsonData);
-    } catch {
-      // console.log("No existing JSON file found. Creating a new one.");
-    }
+    // 디렉토리 확인 및 생성
+    await ensureDirectoryExists(cssFilePath);
 
-    // 새로운 JSON 데이터 생성
-    const jsonResult: JsonType = { ...existingJson };
-    let isUpdated = false; // 변경 여부 플래그
+    // 바로 CSS 파일 생성
+    const cssContent = input.map(({ className, style }) => style).join("\n");
 
-    for (const item of input) {
-      if (item.className in existingJson) {
-        if (existingJson[item.className] !== item.style) {
-          // 내용이 변경되었으면 업데이트
-          jsonResult[item.className] = item.style;
-          isUpdated = true;
-        }
-      } else {
-        // 새로운 클래스 추가
-        jsonResult[item.className] = item.style;
-        isUpdated = true;
-      }
-    }
-
-    // 변경이 없으면 종료
-    if (!isUpdated) {
-      // console.log("No updates to JSON or CSS files.");
-      return; // 추가 작업 불필요
-    }
-
-    // JSON 파일 저장
-    await fs.writeFile(
-      jsonFilePath,
-      JSON.stringify(jsonResult, null, 2),
-      "utf-8"
-    );
-
-    // CSS 파일 생성
-    const cssContent = Object.values(jsonResult).join("\n");
     await fs.writeFile(cssFilePath, cssContent, "utf-8");
+    console.log(`${componentName} CSS updated successfully.`);
 
-    // console.log("CSS file updated successfully.");
+    // stayedcss/style.css에 @import 추가
+    await addImportToFile(`${pageName}/${componentName}`);
   } catch (error) {
-    console.error(`Failed to process CSS: ${error}`);
+    console.error(`Failed to process CSS for ${componentName}:`, error);
+  }
+};
+
+// stayedcss/style.css에 @import 추가
+const addImportToFile = async (folderPath: string) => {
+  const mainCSSFilePath = path.join(process.cwd(), "stayedcss", "style.css");
+  const importStatement = `@import "./${folderPath}/style.css";`;
+
+  try {
+    let data = "";
+    try {
+      data = await fs.readFile(mainCSSFilePath, "utf-8");
+    } catch {
+      console.log("Creating main style.css file.");
+    }
+
+    if (!data.includes(importStatement)) {
+      const updatedData = `${data.trim()}\n${importStatement}`.trim();
+      await fs.writeFile(mainCSSFilePath, updatedData, "utf-8");
+      console.log("@import statement added successfully!");
+    } else {
+      console.log("The @import statement is already present.");
+    }
+  } catch (error) {
+    console.error("Error adding @import to main CSS file:", error);
   }
 };
