@@ -1,2 +1,2 @@
-export * from "./handleHash";
-export * from "./handleNewCSS";
+export * from "./files/handleHash";
+export * from "./files/handleNewCSS";

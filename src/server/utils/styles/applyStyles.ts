@@ -5,9 +5,9 @@ import {
   handlePseudoElements,
   isPseudoClasses,
   isPseudoElements,
-} from "../syntax";
+} from "../../syntax";
 
-import { StyleObjectItemType } from "../../types";
+import { StyleObjectItemType } from "../../../types";
 
 export const updateStyles = (
   itemStyle: StyleObjectItemType,

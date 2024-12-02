@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { JsonType } from "../../types";
+import { JsonType } from "../../../types";
 
 export const writeCSS = async (input: JsonType[]) => {
   const jsonFilePath = "stayedcss/style.json";
