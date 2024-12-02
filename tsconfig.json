@@ -10,6 +10,5 @@
     "declarationDir": "./dist",
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "client", "types"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "client/**/*", "types/**/*", "bin/**/*"]
 }

@@ -1,0 +1,8 @@
+bin
+client
+node_modules
+src
+types
+.gitignore
+*.tgz
+tsconfig.json

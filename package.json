@@ -1,16 +1,27 @@
 {
-  "name": "stillpaint",
-  "version": "1.0.0",
+  "name": "stayedcss",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "main": "./dist/src/index.js",
+  "module": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/src/index.js",
+    "./client": {
+      "import": "./dist/client/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "bin": {
-    "stillpaint": "./bin/init.js"
+    "stayedcss": "./bin/init.js"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",
