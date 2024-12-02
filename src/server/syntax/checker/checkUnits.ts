@@ -24,6 +24,7 @@ const unitRequiredProps = new Set([
   "inset-block",
   "inset-inline",
   "border-width",
+  "border-radius",
   "border-top-width",
   "border-right-width",
   "border-bottom-width",
