@@ -1,6 +1,6 @@
 {
   "name": "stayedcss",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -20,7 +20,7 @@
     "build": "tsc"
   },
   "bin": {
-    "stayedcss": "./dist/bin/init.js"
+    "stayedcss": "./bin/init.js"
   },
   "devDependencies": {
     "@types/node": "^22.9.1",
