@@ -1,4 +1,6 @@
-export * from "./api/handleMode";
-export * from "./api/handleModeServer";
 export * from "../types/client/input";
-export * from "./api/handleClientStyle";
+
+export * from "./api/changeScreenMode";
+export * from "./api/saveScreenMode";
+
+export * from "./main";

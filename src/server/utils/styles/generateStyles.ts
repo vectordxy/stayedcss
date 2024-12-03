@@ -74,11 +74,11 @@ export const generateStyles = (
   }
 
   const styleResult = [...keyframesResult, ...result];
-
+  const cIdHash = handleComponentIdHash(input.componentId as string);
   if (isClient === "server") {
-    // writeCSS(styleResult, handleComponentIdHash(input.componentId as string));
+    // writeCSS(styleResult, cIdHash);
   } else if (isClient === "client") {
-    writeClientCSS(result);
+    writeClientCSS(styleResult, cIdHash);
   }
 
   return new Proxy(stylesForProxy, {
