@@ -34,6 +34,7 @@ const unitRequiredProps = new Set([
   "grid-row-gap",
   "grid-column-gap",
   "flex-basis",
+  "backdrop-filter",
 ]);
 
 export const isRequiredUnits = (cssKey: string) => {

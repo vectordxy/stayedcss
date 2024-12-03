@@ -1,3 +1,4 @@
+import { writeClientCSS } from "../files/handleClientCSS";
 import {
   BreakPointsType,
   ConfigType,
@@ -10,11 +11,10 @@ import {
 import { handleKeyframes, handleMediaQuery } from "../../syntax";
 import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
 import { handleComponentIdHash, handleHash } from "../files/handleHash";
-import { writeCSS } from "../files/handleServerCSS";
 
 import { updateStyles } from "./updateStyles";
 
-export const generateStyles = (
+export const generateClientStyles = (
   input: MainInputType,
   inputScreenMode: "default" | "dark",
   config?: ConfigType
@@ -75,7 +75,7 @@ export const generateStyles = (
   const styleResult = [...keyframesResult, ...result];
   const cIdHash = handleComponentIdHash(input.componentId as string);
 
-  writeCSS(styleResult, cIdHash);
+  writeClientCSS(styleResult, cIdHash);
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {

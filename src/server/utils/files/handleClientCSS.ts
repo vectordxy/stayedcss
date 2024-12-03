@@ -6,26 +6,27 @@ export const writeClientCSS = (input: JsonType[], componentId: string) => {
     return;
   }
 
-  // 중복 방지: 같은 클래스 이름을 가진 <style> 태그 확인
+  // 고유 스타일 ID
   const styleSheetClassName = `styles-${componentId}`;
-  let styleElement = Array.from(
-    document.getElementsByClassName(styleSheetClassName)
-  ).find((el) => el instanceof HTMLStyleElement) as HTMLStyleElement | null;
 
-  // <style> 태그가 없으면 새로 생성
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = styleSheetClassName;
-    const head = document.head || document.getElementsByTagName("head")[0];
-    head.appendChild(styleElement);
-  }
+  // 기존 <style> 태그 확인 및 제거
+  Array.from(document.getElementsByTagName("style")).forEach((el) => {
+    if (
+      el.id === styleSheetClassName && // 정확히 해당 id인지 확인
+      el instanceof HTMLStyleElement
+    ) {
+      el.remove(); // 기존 스타일 태그 제거
+      console.log(`Removed old style tag with id: ${el.id}`);
+    }
+  });
+
+  // 새로운 <style> 태그 생성
+  let styleElement = document.createElement("style");
+  styleElement.id = styleSheetClassName;
+  const head = document.head || document.getElementsByTagName("head")[0];
+  head.appendChild(styleElement);
 
   const styleSheet = styleElement.sheet as CSSStyleSheet;
-
-  // 기존 스타일 삭제
-  while (styleSheet.cssRules.length > 0) {
-    styleSheet.deleteRule(0);
-  }
 
   // 새 스타일 추가
   input.forEach((item) => {
@@ -39,4 +40,8 @@ export const writeClientCSS = (input: JsonType[], componentId: string) => {
       console.warn("Invalid style format:", item);
     }
   });
+
+  console.log(
+    `Dynamic CSS rules added successfully with ID: ${styleSheetClassName}`
+  );
 };

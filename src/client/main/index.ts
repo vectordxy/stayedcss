@@ -1,8 +1,9 @@
+import { generateClientStyles } from "../../server/utils/styles/generateClientStyles";
 import { generateStyles } from "../../server/utils/styles/generateStyles";
 import { ConfigType, MainInputType } from "../../types";
 
 export function stayedClientStyle(input: MainInputType, config?: ConfigType) {
-  return generateStyles(input, "default", "client", config);
+  return generateClientStyles(input, "default", config);
 }
 
 // export function stayedClientDarkStyle(
