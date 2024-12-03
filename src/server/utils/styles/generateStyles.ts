@@ -10,7 +10,7 @@ import {
 import { handleKeyframes, handleMediaQuery } from "../../syntax";
 import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
 import { handleComponentIdHash, handleHash } from "../files/handleHash";
-import { writeCSS } from "../files/handleServerCSS";
+import { writeCSS, writeDarkModeCSS } from "../files/handleServerCSS";
 
 import { updateStyles } from "./updateStyles";
 
@@ -74,8 +74,11 @@ export const generateStyles = (
 
   const styleResult = [...keyframesResult, ...result];
   const cIdHash = handleComponentIdHash(input.componentId as string);
-
-  writeCSS(styleResult, cIdHash);
+  if (inputScreenMode === "default") {
+    writeCSS(styleResult, cIdHash);
+  } else {
+    writeDarkModeCSS(styleResult, cIdHash);
+  }
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {
