@@ -6,15 +6,16 @@ import {
   MainInputType,
   StyleObjectItemType,
   StylesForProxyType,
-} from "../../../types";
-import { handleKeyframes, handleMediaQuery } from "../../syntax";
-import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
-import { handleComponentIdHash, handleHash } from "../files/handleHash";
-import { writeCSS, writeDarkModeCSS } from "../files/handleServerCSS";
+} from "../types";
+import { handleKeyframes, handleMediaQuery } from "../server/syntax";
+import { defaultBreakpoints } from "../server/syntax/handler/handleBreakpoints";
+import {
+  handleComponentIdHash,
+  handleHash,
+} from "../server/utils/common/handleHash";
+import { updateStyles } from "../server/syntax/handler/generateSyntax";
 
-import { updateStyles } from "./updateStyles";
-
-export const generateStyles = (
+export const generateSharedStyles = (
   input: MainInputType,
   inputScreenMode: "default" | "dark",
   config?: ConfigType
@@ -72,22 +73,9 @@ export const generateStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  const styleResult = [...keyframesResult, ...result];
-  const cIdHash = handleComponentIdHash(input.componentId as string);
-  if (inputScreenMode === "default") {
-    writeCSS(styleResult, cIdHash);
-  } else {
-    writeDarkModeCSS(styleResult, cIdHash);
-  }
-
-  return new Proxy(stylesForProxy, {
-    get(target, prop) {
-      if (typeof prop === "string" && prop in target) {
-        return target[prop];
-      } else {
-        console.warn(`Property "${String(prop)}" does not exist on styles.`);
-        return undefined;
-      }
-    },
-  });
+  return {
+    styleResult: [...keyframesResult, ...result],
+    stylesForProxy: stylesForProxy,
+    cIdHash: handleComponentIdHash(input.componentId as string),
+  };
 };

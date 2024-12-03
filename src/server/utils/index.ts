@@ -1,2 +1,2 @@
-export * from "./files/handleHash";
-export * from "./files/handleServerCSS";
+export * from "./common/handleHash";
+export * from "./files/handleServerCSSFile";

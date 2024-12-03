@@ -1,5 +1,5 @@
-import { generateClientStyles } from "../../server/utils/styles/generateClientStyles";
-import { generateStyles } from "../../server/utils/styles/generateStyles";
+import { generateClientStyles } from "../../styles/generateClientStyles";
+import { generateStyles } from "../../styles/generateServerStyles";
 import { ConfigType, MainInputType } from "../../types";
 
 export function stayedClientStyle(input: MainInputType, config?: ConfigType) {

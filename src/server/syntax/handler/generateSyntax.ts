@@ -5,7 +5,7 @@ import {
   handlePseudoElements,
   isPseudoClasses,
   isPseudoElements,
-} from "../../syntax";
+} from "..";
 
 import { StyleObjectItemType } from "../../../types";
 

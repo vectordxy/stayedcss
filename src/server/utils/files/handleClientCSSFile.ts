@@ -6,10 +6,7 @@ export const writeClientCSS = (input: JsonType[], componentId: string) => {
     return;
   }
 
-  // 고유 스타일 ID
   const styleSheetClassName = `styles-${componentId}`;
-
-  // 기존 <style> 태그 확인 및 제거
   Array.from(document.getElementsByTagName("style")).forEach((el) => {
     if (
       el.id === styleSheetClassName && // 정확히 해당 id인지 확인

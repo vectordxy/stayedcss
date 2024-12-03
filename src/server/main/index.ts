@@ -1,5 +1,5 @@
 import { ConfigType, MainInputType } from "../../types";
-import { generateStyles } from "../utils/styles/generateStyles";
+import { generateStyles } from "../../styles/generateServerStyles";
 
 export function stayedStyle(input: MainInputType, config?: ConfigType) {
   return generateStyles(input, "default", config);
