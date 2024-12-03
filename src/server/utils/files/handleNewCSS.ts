@@ -2,8 +2,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { JsonType } from "../../../types";
 
-export const writeCSS = async (input: JsonType[], componentName: string) => {
-  const cssFilePath = `style-${componentName}/style.css`;
+export const writeCSS = async (input: JsonType[], componentId: string) => {
+  const cssFilePath = `style-${componentId}.css`;
   const fullFilePath = `stayedcss/${cssFilePath}`;
 
   const ensureDirectoryExists = async (filePath: string) => {
@@ -24,18 +24,18 @@ export const writeCSS = async (input: JsonType[], componentName: string) => {
     const cssContent = input.map(({ className, style }) => style).join("\n");
 
     await fs.writeFile(fullFilePath, cssContent, "utf-8");
-    // console.log(`${componentName} CSS updated successfully.`);
+    // console.log(`${componentId} CSS updated successfully.`);
 
-    // stayedcss/style.css에 @import 추가
+    // stayedcss/index.css에 @import 추가
     await addImportToFile(cssFilePath);
   } catch (error) {
-    console.error(`Failed to process CSS for ${componentName}:`, error);
+    console.error(`Failed to process CSS for ${componentId}:`, error);
   }
 };
 
-// stayedcss/style.css에 @import 추가
+// stayedcss/index.css에 @import 추가
 const addImportToFile = async (folderPath: string) => {
-  const mainCSSFilePath = path.join(process.cwd(), "stayedcss", "style.css");
+  const mainCSSFilePath = path.join(process.cwd(), "stayedcss", "index.css");
   const importStatement = `@import "./${folderPath}";`;
 
   try {
@@ -43,7 +43,7 @@ const addImportToFile = async (folderPath: string) => {
     try {
       data = await fs.readFile(mainCSSFilePath, "utf-8");
     } catch {
-      // console.log("Creating main style.css file.");
+      // console.log("Creating main index.css file.");
     }
 
     if (!data.includes(importStatement)) {

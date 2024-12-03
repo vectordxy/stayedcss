@@ -9,7 +9,7 @@ import {
 } from "../../../types";
 import { handleKeyframes, handleMediaQuery } from "../../syntax";
 import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
-import { handleHash } from "../files/handleHash";
+import { handleComponentIdHash, handleHash } from "../files/handleHash";
 import { writeCSS } from "../files/handleNewCSS";
 
 import { updateStyles } from "./applyStyles";
@@ -29,10 +29,10 @@ export const generateStyles = (
     inputKeyframes = keyframes || {};
   }
 
-  const componentHash = handleHash(input.componentName as string).slice(0, 8);
+  const componentHash = handleHash(input.componentId as string).slice(0, 8);
 
   const styleData = Object.entries(input).filter(
-    ([key]) => key !== "componentName"
+    ([key]) => key !== "componentId"
   );
 
   let result: JsonType[] = [];
@@ -71,7 +71,10 @@ export const generateStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  writeCSS([...keyframesResult, ...result], input.componentName as string);
+  writeCSS(
+    [...keyframesResult, ...result],
+    handleComponentIdHash(input.componentId as string)
+  );
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {

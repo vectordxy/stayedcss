@@ -4,7 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const stayedcssDir = "stayedcss";
-const cssFilePath = path.join(stayedcssDir, "style.css");
+const cssFilePath = path.join(stayedcssDir, "index.css");
 
 async function initStayedcss() {
   try {
