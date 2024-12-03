@@ -12,7 +12,7 @@ import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
 import { handleComponentIdHash, handleHash } from "../files/handleHash";
 import { writeCSS } from "../files/handleNewCSS";
 
-import { updateStyles } from "./applyStyles";
+import { updateStyles } from "./updateStyles";
 
 export const generateStyles = (
   input: MainInputType,

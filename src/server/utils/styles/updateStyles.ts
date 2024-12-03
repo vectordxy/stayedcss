@@ -48,11 +48,7 @@ export const updateStyles = (
         break;
 
       default: // 그외 일반 스타일
-        const general = handleGeneralCSS(
-          elementKey,
-          elementStyle,
-          itemClassName
-        );
+        const general = handleGeneralCSS(elementKey, elementStyle);
         bufferGeneralCSS += general;
         break;
     }

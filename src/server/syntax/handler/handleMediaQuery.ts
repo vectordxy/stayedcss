@@ -1,4 +1,4 @@
-import { updateStyles } from "../../utils/styles/applyStyles";
+import { updateStyles } from "../../utils/styles/updateStyles";
 import { StyleObjectItemType } from "../../../types";
 
 export const handleMediaQuery = (
