@@ -1,5 +1,5 @@
-import { getClientStyles } from "../../styles/getClientStyles";
 import { Config, MainInput } from "../../types";
+import { getClientStyles } from "../styles/getClientStyles";
 
 export function stayedClientStyle(input: MainInput, config?: Config) {
   return getClientStyles(input, "default", config);

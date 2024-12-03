@@ -1,4 +1,4 @@
-import { writeClientCSS } from "../server/utils/files/handleClientCSSFile";
+import { writeClientCSS } from "../static/utils/files/handleClientCSSFile";
 import { Config, MainInput } from "../types";
 import { getSharedStyles } from "./getSharedStyles";
 

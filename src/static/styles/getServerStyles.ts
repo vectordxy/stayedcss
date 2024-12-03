@@ -1,9 +1,9 @@
+import { getSharedStyles } from "../../shared/styles/getSharedStyles";
+import { Config, MainInput } from "../../types";
 import {
-  writeCSS,
-  writeDarkModeCSS,
-} from "../server/utils/files/handleServerCSSFile";
-import { getSharedStyles } from "./getSharedStyles";
-import { Config, MainInput } from "../types";
+  writeStaticCSS,
+  writeStaticDarkModeCSS,
+} from "../../static/utils/files/handleServerCSSFile";
 
 export const getStaticStyles = (
   input: MainInput,
@@ -17,9 +17,9 @@ export const getStaticStyles = (
   );
 
   if (inputScreenMode === "default") {
-    writeCSS(styleResult, cIdHash);
+    writeStaticCSS(styleResult, cIdHash);
   } else {
-    writeDarkModeCSS(styleResult, cIdHash);
+    writeStaticDarkModeCSS(styleResult, cIdHash);
   }
 
   return new Proxy(stylesForProxy, {

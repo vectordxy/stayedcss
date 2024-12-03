@@ -1,7 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 
-// stayedcss/index.css에 컴포넌트 style.css 추가
+// stayedcss/index.css에  style.css 추가
 export const addImportToIndex = async (folderPath: string) => {
   const mainCSSFilePath = path.join(process.cwd(), "stayedcss", "index.css");
   const importStatement = `@import "./${folderPath}/style.css";`;
@@ -14,7 +14,7 @@ export const addImportToIndex = async (folderPath: string) => {
       console.log("index.css not found, creating a new one.");
     }
 
-    // @import 문이 최상단에 오도록 처리
+    // @import 최상단
     if (!data.includes(importStatement)) {
       const updatedData = `${importStatement}\n${data.trim()}`.trim();
       await fs.writeFile(mainCSSFilePath, updatedData, "utf-8");
@@ -27,7 +27,7 @@ export const addImportToIndex = async (folderPath: string) => {
   }
 };
 
-// 폴더 내부 style.css에 @import 추가
+// 폴더/style.css에 @import 추가
 export const addImportToLocalStyle = async (
   folderPath: string,
   importFile: string
@@ -48,7 +48,7 @@ export const addImportToLocalStyle = async (
       console.log("style.css not found, creating a new one.");
     }
 
-    // @import 문이 최상단에 오도록 처리
+    // @import 최상단
     if (!data.includes(importStatement)) {
       const updatedData = `${importStatement}\n${data.trim()}`.trim();
       await fs.writeFile(localStylePath, updatedData, "utf-8");

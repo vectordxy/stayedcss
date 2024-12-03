@@ -1,10 +1,4 @@
-import { updateStyles } from "../server/syntax/handler/generateSyntax";
-import { handleKeyframes, handleMediaQuery } from "../server/syntax";
-import { defaultBreakpoints } from "../server/syntax/handler/handleBreakpoints";
-import {
-  handleComponentIdHash,
-  handleHash,
-} from "../server/utils/common/handleHash";
+import { handleComponentIdHash, handleHash } from "../../static/utils";
 import {
   BreakPoints,
   Config,
@@ -13,7 +7,10 @@ import {
   MainInput,
   StyleObjectItem,
   StylesForProxy,
-} from "../types";
+} from "../../types";
+import { handleKeyframes, handleMediaQuery } from "../syntax";
+import { updateStyles } from "../syntax/handler/generateSyntax";
+import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
 
 export const getSharedStyles = (
   input: MainInput,
