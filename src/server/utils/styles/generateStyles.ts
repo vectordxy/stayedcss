@@ -1,3 +1,4 @@
+import { writeClientCSS } from "../files/handleClientCSS";
 import {
   BreakPointsType,
   ConfigType,
@@ -10,13 +11,14 @@ import {
 import { handleKeyframes, handleMediaQuery } from "../../syntax";
 import { defaultBreakpoints } from "../../syntax/handler/handleBreakpoints";
 import { handleComponentIdHash, handleHash } from "../files/handleHash";
-import { writeCSS } from "../files/handleNewCSS";
+import { writeCSS } from "../files/handleServerCSS";
 
 import { updateStyles } from "./updateStyles";
 
 export const generateStyles = (
   input: MainInputType,
-  inputMode: "default" | "dark",
+  inputScreenMode: "default" | "dark",
+  isClient: "server" | "client",
   config?: ConfigType
 ) => {
   let inputBreakpoints: BreakPointsType = defaultBreakpoints;
@@ -50,7 +52,7 @@ export const generateStyles = (
     const itemName = item[0];
     const itemStyle = item[1] as unknown as StyleObjectItemType;
     const itemClassName =
-      inputMode === "default"
+      inputScreenMode === "default"
         ? `${itemName}-${componentHash}`
         : `dark .${itemName}-${componentHash}`;
 
@@ -71,10 +73,13 @@ export const generateStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  writeCSS(
-    [...keyframesResult, ...result],
-    handleComponentIdHash(input.componentId as string)
-  );
+  const styleResult = [...keyframesResult, ...result];
+
+  if (isClient === "server") {
+    // writeCSS(styleResult, handleComponentIdHash(input.componentId as string));
+  } else if (isClient === "client") {
+    writeClientCSS(result);
+  }
 
   return new Proxy(stylesForProxy, {
     get(target, prop) {
