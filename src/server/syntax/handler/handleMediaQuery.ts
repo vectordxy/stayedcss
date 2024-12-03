@@ -1,9 +1,9 @@
 import { updateStyles } from "./generateSyntax";
-import { StyleObjectItemType } from "../../../types";
+import { StyleObjectItem } from "../../../types";
 
 export const handleMediaQuery = (
   mediaQueryKey: string,
-  inputStyle: StyleObjectItemType,
+  inputStyle: StyleObjectItem,
   className: string,
   componentHash: string
 ) => {

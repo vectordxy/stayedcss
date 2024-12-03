@@ -2,15 +2,15 @@ import {
   writeCSS,
   writeDarkModeCSS,
 } from "../server/utils/files/handleServerCSSFile";
-import { generateSharedStyles } from "./generateSharedStyles";
-import { ConfigType, MainInputType } from "../types";
+import { getSharedStyles } from "./getSharedStyles";
+import { Config, MainInput } from "../types";
 
-export const generateStyles = (
-  input: MainInputType,
+export const getStaticStyles = (
+  input: MainInput,
   inputScreenMode: "default" | "dark",
-  config?: ConfigType
+  config?: Config
 ) => {
-  const { styleResult, stylesForProxy, cIdHash } = generateSharedStyles(
+  const { styleResult, stylesForProxy, cIdHash } = getSharedStyles(
     input,
     inputScreenMode,
     config

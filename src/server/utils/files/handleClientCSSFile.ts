@@ -1,6 +1,6 @@
-import { JsonType } from "../../../types";
+import { Json } from "../../../types";
 
-export const writeClientCSS = (input: JsonType[], componentId: string) => {
+export const writeClientCSS = (input: Json[], componentId: string) => {
   if (typeof window === "undefined") {
     console.warn("writeClientCSS can only run in the browser.");
     return;

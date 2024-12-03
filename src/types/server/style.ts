@@ -1,20 +1,20 @@
-export interface StylesForProxyType {
+export interface StylesForProxy {
   [key: string]: string;
 }
 
-export interface StyleItemType {
+export interface StyleItem {
   [styleKey: string]: string | number;
 }
 
-export interface StyleObjectItemType {
-  [styleKey: string]: string | number | StyleItemType;
+export interface StyleObjectItem {
+  [styleKey: string]: string | number | StyleItem;
 }
 
 export type KeyframeStyle = {
   [property: string]: string | number;
 };
 
-export type KeyframesType = {
+export type Keyframes = {
   [animationName: string]: {
     [percentage: string]: KeyframeStyle;
   };

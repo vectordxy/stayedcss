@@ -1,2 +1,2 @@
-export type JsonType = Record<string, string>;
-export type BreakPointsType = Record<string, string>;
+export type Json = Record<string, string>;
+export type BreakPoints = Record<string, string>;

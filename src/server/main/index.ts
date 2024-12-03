@@ -1,10 +1,10 @@
-import { ConfigType, MainInputType } from "../../types";
-import { generateStyles } from "../../styles/generateServerStyles";
+import { Config, MainInput } from "../../types";
+import { getStaticStyles } from "../../styles/getServerStyles";
 
-export function stayedStyle(input: MainInputType, config?: ConfigType) {
-  return generateStyles(input, "default", config);
+export function stayedStyle(input: MainInput, config?: Config) {
+  return getStaticStyles(input, "default", config);
 }
 
-export function stayedDarkStyle(input: MainInputType, config?: ConfigType) {
-  return generateStyles(input, "dark", config);
+export function stayedDarkStyle(input: MainInput, config?: Config) {
+  return getStaticStyles(input, "dark", config);
 }

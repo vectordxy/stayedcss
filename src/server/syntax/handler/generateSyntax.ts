@@ -7,10 +7,10 @@ import {
   isPseudoElements,
 } from "..";
 
-import { StyleObjectItemType } from "../../../types";
+import { StyleObjectItem } from "../../../types";
 
 export const updateStyles = (
-  itemStyle: StyleObjectItemType,
+  itemStyle: StyleObjectItem,
   itemClassName: string
 ) => {
   let result: { className: string; style: string }[] = [];

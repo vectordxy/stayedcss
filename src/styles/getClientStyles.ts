@@ -1,13 +1,13 @@
 import { writeClientCSS } from "../server/utils/files/handleClientCSSFile";
-import { ConfigType, MainInputType } from "../types";
-import { generateSharedStyles } from "./generateSharedStyles";
+import { Config, MainInput } from "../types";
+import { getSharedStyles } from "./getSharedStyles";
 
-export const generateClientStyles = (
-  input: MainInputType,
+export const getClientStyles = (
+  input: MainInput,
   inputScreenMode: "default" | "dark",
-  config?: ConfigType
+  config?: Config
 ) => {
-  const { styleResult, stylesForProxy, cIdHash } = generateSharedStyles(
+  const { styleResult, stylesForProxy, cIdHash } = getSharedStyles(
     input,
     inputScreenMode,
     config

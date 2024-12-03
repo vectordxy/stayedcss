@@ -1,10 +1,10 @@
 import path from "path";
 import { promises as fs } from "fs";
 import { addImportToIndex, addImportToLocalStyle } from "./handleImportInCSS";
-import { JsonType } from "../../../types";
+import { Json } from "../../../types";
 
 // 라이트모드
-export const writeCSS = async (input: JsonType[], componentId: string) => {
+export const writeCSS = async (input: Json[], componentId: string) => {
   const cssFilePath = `style-${componentId}/style.css`;
   const fullFilePath = `stayedcss/${cssFilePath}`;
 
@@ -35,10 +35,7 @@ export const writeCSS = async (input: JsonType[], componentId: string) => {
 };
 
 // 다크모드
-export const writeDarkModeCSS = async (
-  input: JsonType[],
-  componentId: string
-) => {
+export const writeDarkModeCSS = async (input: Json[], componentId: string) => {
   const cssFilePath = `style-${componentId}/darkmode.css`;
   const fullFilePath = `stayedcss/${cssFilePath}`;
 

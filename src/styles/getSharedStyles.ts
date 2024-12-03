@@ -1,27 +1,27 @@
-import {
-  BreakPointsType,
-  ConfigType,
-  JsonType,
-  KeyframesType,
-  MainInputType,
-  StyleObjectItemType,
-  StylesForProxyType,
-} from "../types";
+import { updateStyles } from "../server/syntax/handler/generateSyntax";
 import { handleKeyframes, handleMediaQuery } from "../server/syntax";
 import { defaultBreakpoints } from "../server/syntax/handler/handleBreakpoints";
 import {
   handleComponentIdHash,
   handleHash,
 } from "../server/utils/common/handleHash";
-import { updateStyles } from "../server/syntax/handler/generateSyntax";
+import {
+  BreakPoints,
+  Config,
+  Json,
+  Keyframes,
+  MainInput,
+  StyleObjectItem,
+  StylesForProxy,
+} from "../types";
 
-export const generateSharedStyles = (
-  input: MainInputType,
+export const getSharedStyles = (
+  input: MainInput,
   inputScreenMode: "default" | "dark",
-  config?: ConfigType
+  config?: Config
 ) => {
-  let inputBreakpoints: BreakPointsType = defaultBreakpoints;
-  let inputKeyframes: KeyframesType = {};
+  let inputBreakpoints: BreakPoints = defaultBreakpoints;
+  let inputKeyframes: Keyframes = {};
 
   if (config) {
     const { breakpoints, keyframes } = config;
@@ -36,10 +36,10 @@ export const generateSharedStyles = (
     ([key]) => key !== "componentId"
   );
 
-  let result: JsonType[] = [];
+  let result: Json[] = [];
 
-  const stylesForProxy: StylesForProxyType = {};
-  let keyframesResult: JsonType[] = [];
+  const stylesForProxy: StylesForProxy = {};
+  let keyframesResult: Json[] = [];
 
   // 키프레임 애니메이션 처리
   if (inputKeyframes) {
@@ -49,7 +49,7 @@ export const generateSharedStyles = (
   // 애니메이션 처리
   for (let item of styleData) {
     const itemName = item[0];
-    const itemStyle = item[1] as unknown as StyleObjectItemType;
+    const itemStyle = item[1] as unknown as StyleObjectItem;
     const itemClassName =
       inputScreenMode === "default"
         ? `${itemName}-${componentHash}`

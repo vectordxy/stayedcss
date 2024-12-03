@@ -1,7 +1,7 @@
-import { KeyframesType } from "../../../types";
+import { Keyframes } from "../../../types";
 import { isRequiredUnits } from "../checker/checkUnits";
 
-export const handleKeyframes = (keyframes: KeyframesType) => {
+export const handleKeyframes = (keyframes: Keyframes) => {
   let resultString = "";
   let name = "";
   const result = [];

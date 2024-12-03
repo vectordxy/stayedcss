@@ -1,9 +1,9 @@
-import { StyleObjectItemType } from "../../../types";
+import { StyleObjectItem } from "../../../types";
 import { isRequiredUnits } from "../checker/checkUnits";
 
 export const handleCombinators = (
   elementKey: string,
-  inputStyle: StyleObjectItemType,
+  inputStyle: StyleObjectItem,
   className: string
 ) => {
   let resultString = `${className} ${elementKey} { `;
