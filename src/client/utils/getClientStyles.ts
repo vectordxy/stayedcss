@@ -1,6 +1,6 @@
-import { writeClientCSS } from "../static/utils/files/handleClientCSSFile";
-import { Config, MainInput } from "../types";
-import { getSharedStyles } from "./getSharedStyles";
+import { getSharedStyles } from "../../shared/styles/getSharedStyles";
+import { writeClientCSS } from "../../static/utils/files/handleClientCSSFile";
+import { Config, MainInput } from "../../types";
 
 export const getClientStyles = (
   input: MainInput,

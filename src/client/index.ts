@@ -1,6 +1,6 @@
-export * from "../types/client/input";
+export * from "./main";
 
 export * from "./api/changeScreenMode";
 export * from "./api/saveScreenMode";
 
-export * from "./main";
+export * from "../types/client/input";

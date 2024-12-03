@@ -1,9 +1,9 @@
-import { getSharedStyles } from "../../shared/styles/getSharedStyles";
-import { Config, MainInput } from "../../types";
+import { getSharedStyles } from "../../../shared/styles/getSharedStyles";
+import { Config, MainInput } from "../../../types";
 import {
   writeStaticCSS,
   writeStaticDarkModeCSS,
-} from "../../static/utils/files/handleServerCSSFile";
+} from "../files/handleServerCSSFile";
 
 export const getStaticStyles = (
   input: MainInput,

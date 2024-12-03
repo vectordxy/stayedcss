@@ -1,4 +1,3 @@
-// utils/setCookieMode.ts
 import { NextResponse } from "next/server";
 
 export const saveScreenMode = (mode: string) => {
