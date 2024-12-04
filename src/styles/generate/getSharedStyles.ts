@@ -14,11 +14,11 @@ import { defaultBreakpoints } from "../syntax/handleBreakpoints";
 export const getSharedStyles = (
   input: MainInput,
   inputScreenMode: "default" | "dark",
-  componentId: string,
   config?: Config
 ) => {
   let inputBreakpoints: BreakPoints = defaultBreakpoints;
   let inputKeyframes: Keyframes = {};
+  const componentHash = (input.componentId as string).replace(/\//g, "-");
 
   if (config) {
     const { breakpoints, keyframes } = config;
@@ -47,8 +47,8 @@ export const getSharedStyles = (
     const itemStyle = item[1] as unknown as StyleObjectItem;
     const itemClassName =
       inputScreenMode === "default"
-        ? `${itemName}-${componentId}`
-        : `dark .${itemName}-${componentId}`;
+        ? `${itemName}-${componentHash}`
+        : `dark .${itemName}-${componentHash}`;
 
     stylesForProxy[itemName] = "";
 
@@ -58,7 +58,7 @@ export const getSharedStyles = (
         inputBreakpoints[itemName],
         itemStyle,
         itemClassName,
-        componentId
+        componentHash
       );
       result.push(mqResult);
     } else {
@@ -71,6 +71,6 @@ export const getSharedStyles = (
   return {
     styleResult: [...keyframesResult, ...result],
     stylesForProxy: stylesForProxy,
-    cIdHash: componentId,
+    cIdHash: componentHash,
   };
 };
