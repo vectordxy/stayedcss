@@ -7,7 +7,7 @@ import {
   isPseudoElements,
 } from "..";
 
-import { StyleObjectItem } from "../../../types";
+import { StyleObjectItem } from "../../types";
 
 export const updateStyles = (
   itemStyle: StyleObjectItem,

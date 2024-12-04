@@ -1,5 +1,5 @@
-import { Keyframes } from "../../../types";
-import { isRequiredUnits } from "../checker/checkUnits";
+import { Keyframes } from "../../types";
+import { isRequiredUnits } from "./checker/checkUnits";
 
 export const handleKeyframes = (keyframes: Keyframes) => {
   let resultString = "";

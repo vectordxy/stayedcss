@@ -1,3 +1,3 @@
-export * from "./client/input";
-export * from "./server/style";
-export * from "./server/file";
+export * from "./client";
+export * from "./static/style";
+export * from "./static/file";

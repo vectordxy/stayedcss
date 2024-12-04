@@ -1,4 +1,4 @@
-import { Json } from "../../../types";
+import { Json } from "../../types";
 
 export const writeClientCSS = (input: Json[], componentId: string) => {
   if (typeof window === "undefined") {
@@ -13,7 +13,7 @@ export const writeClientCSS = (input: Json[], componentId: string) => {
       el instanceof HTMLStyleElement
     ) {
       el.remove(); // 기존 스타일 태그 제거
-      console.log(`Removed old style tag with id: ${el.id}`);
+      // console.log(`Removed old style tag with id: ${el.id}`);
     }
   });
 
@@ -38,7 +38,7 @@ export const writeClientCSS = (input: Json[], componentId: string) => {
     }
   });
 
-  console.log(
-    `Dynamic CSS rules added successfully with ID: ${styleSheetClassName}`
-  );
+  // console.log(
+  //   `Dynamic CSS rules added successfully with ID: ${styleSheetClassName}`
+  // );
 };

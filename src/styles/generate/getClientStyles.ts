@@ -1,4 +1,5 @@
-import { handleComponentIdHash, handleHash } from "../../static/utils";
+import { writeClientCSS } from "../../utils/files/handleClientCSSFile";
+import { handleComponentIdHash, handleHash } from "../../utils";
 import {
   BreakPoints,
   Config,
@@ -8,11 +9,11 @@ import {
   StyleObjectItem,
   StylesForProxy,
 } from "../../types";
-import { handleKeyframes, handleMediaQuery } from "../syntax";
-import { updateStyles } from "../syntax/handler/generateSyntax";
-import { defaultBreakpoints } from "../syntax/handler/handleBreakpoints";
+import { handleKeyframes, handleMediaQuery } from "..";
+import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import { updateStyles } from "../syntax/generateSyntax";
 
-export const getSharedStyles = (
+export const getClientStyles = (
   input: MainInput,
   inputScreenMode: "default" | "dark",
   config?: Config
@@ -70,9 +71,19 @@ export const getSharedStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  return {
-    styleResult: [...keyframesResult, ...result],
-    stylesForProxy: stylesForProxy,
-    cIdHash: handleComponentIdHash(input.componentId as string),
-  };
+  const styleResult = [...keyframesResult, ...result];
+  const cIdHash = handleComponentIdHash(input.componentId as string);
+
+  writeClientCSS(styleResult, cIdHash);
+
+  return new Proxy(stylesForProxy, {
+    get(target, prop) {
+      if (typeof prop === "string" && prop in target) {
+        return target[prop];
+      } else {
+        console.warn(`Property "${String(prop)}" does not exist on styles.`);
+        return undefined;
+      }
+    },
+  });
 };

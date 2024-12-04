@@ -1,4 +1,4 @@
-import { isRequiredUnits } from "../checker/checkUnits";
+import { isRequiredUnits } from "./checker/checkUnits";
 
 export const handleGeneralCSS = (
   elementKey: string,

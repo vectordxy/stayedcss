@@ -1,5 +1,5 @@
-import { StyleObjectItem } from "../../../types";
-import { isRequiredUnits } from "../checker/checkUnits";
+import { StyleObjectItem } from "../../types";
+import { isRequiredUnits } from "./checker/checkUnits";
 
 export const handlePseudoElements = (
   elementKey: string,

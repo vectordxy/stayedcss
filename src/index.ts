@@ -1,1 +1,1 @@
-export * from "./static";
+export * from "./main/static/style";

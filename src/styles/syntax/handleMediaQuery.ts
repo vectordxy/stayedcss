@@ -1,5 +1,5 @@
 import { updateStyles } from "./generateSyntax";
-import { StyleObjectItem } from "../../../types";
+import { StyleObjectItem } from "../../types";
 
 export const handleMediaQuery = (
   mediaQueryKey: string,
