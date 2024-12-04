@@ -1,4 +1,3 @@
-import { handleComponentIdHash, handleHash } from "../../utils";
 import {
   BreakPoints,
   Config,
@@ -11,6 +10,7 @@ import {
 import { handleKeyframes, handleMediaQuery } from "..";
 import { updateStyles } from "../syntax/generateSyntax";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import { handleComponentIdHash, handleHash } from "../../utils";
 
 export const getSharedStyles = (
   input: MainInput,
