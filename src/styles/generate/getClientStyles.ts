@@ -10,11 +10,10 @@ export const getClientStyles = (
   const { styleResult, stylesForProxy, cIdHash } = getSharedStyles(
     input,
     inputScreenMode,
+    input.componentId as string,
     config
   );
-
   writeClientCSS(styleResult, cIdHash);
-
   return new Proxy(stylesForProxy, {
     get(target, prop) {
       if (typeof prop === "string" && prop in target) {

@@ -10,11 +10,11 @@ import {
 import { handleKeyframes, handleMediaQuery } from "..";
 import { updateStyles } from "../syntax/generateSyntax";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
-import { handleComponentIdHash, handleHash } from "../../utils";
 
 export const getSharedStyles = (
   input: MainInput,
   inputScreenMode: "default" | "dark",
+  componentId: string,
   config?: Config
 ) => {
   let inputBreakpoints: BreakPoints = defaultBreakpoints;
@@ -26,8 +26,6 @@ export const getSharedStyles = (
     inputBreakpoints = breakpoints || defaultBreakpoints;
     inputKeyframes = keyframes || {};
   }
-
-  const componentHash = handleHash(input.componentId as string).slice(0, 8);
 
   const styleData = Object.entries(input).filter(
     ([key]) => key !== "componentId"
@@ -49,8 +47,8 @@ export const getSharedStyles = (
     const itemStyle = item[1] as unknown as StyleObjectItem;
     const itemClassName =
       inputScreenMode === "default"
-        ? `${itemName}-${componentHash}`
-        : `dark .${itemName}-${componentHash}`;
+        ? `${itemName}-${componentId}`
+        : `dark .${itemName}-${componentId}`;
 
     stylesForProxy[itemName] = "";
 
@@ -60,7 +58,7 @@ export const getSharedStyles = (
         inputBreakpoints[itemName],
         itemStyle,
         itemClassName,
-        componentHash
+        componentId
       );
       result.push(mqResult);
     } else {
@@ -73,6 +71,6 @@ export const getSharedStyles = (
   return {
     styleResult: [...keyframesResult, ...result],
     stylesForProxy: stylesForProxy,
-    cIdHash: handleComponentIdHash(input.componentId as string),
+    cIdHash: componentId,
   };
 };

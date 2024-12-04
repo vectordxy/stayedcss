@@ -1,4 +1,8 @@
-import { writeStaticCSS, writeStaticDarkModeCSS } from "../../utils";
+import {
+  handleComponentIdHash,
+  writeStaticCSS,
+  writeStaticDarkModeCSS,
+} from "../../utils";
 import { Config, MainInput } from "../../types";
 import { getSharedStyles } from "./getSharedStyles";
 
@@ -10,6 +14,7 @@ export const getStaticStyles = (
   const { styleResult, stylesForProxy, cIdHash } = getSharedStyles(
     input,
     inputScreenMode,
+    handleComponentIdHash(input.componentId as string),
     config
   );
 
