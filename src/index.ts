@@ -1,1 +1,1 @@
-export * from "./main/static/style";
+export * from "./main/static/api/getStaticStyles";

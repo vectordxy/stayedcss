@@ -1,3 +1,4 @@
+import { writeStaticCSS, writeStaticDarkModeCSS } from "../../utils";
 import {
   BreakPoints,
   Config,
@@ -11,7 +12,7 @@ import { handleKeyframes, handleMediaQuery } from "..";
 import { updateStyles } from "../syntax/generateSyntax";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
 
-export const getSharedStyles = (
+export const getStaticStyles = (
   input: MainInput,
   inputScreenMode: "default" | "dark",
   config?: Config
@@ -68,9 +69,23 @@ export const getSharedStyles = (
     stylesForProxy[itemName] = itemClassName;
   }
 
-  return {
-    styleResult: [...keyframesResult, ...result],
-    stylesForProxy: stylesForProxy,
-    cIdHash: componentHash,
-  };
+  const styleResult = [...keyframesResult, ...result];
+  const cIdHash = componentHash;
+
+  if (inputScreenMode === "default") {
+    writeStaticCSS(styleResult, cIdHash);
+  } else {
+    writeStaticDarkModeCSS(styleResult, cIdHash);
+  }
+
+  // return new Proxy(stylesForProxy, {
+  //   get(target, prop) {
+  //     if (typeof prop === "string" && prop in target) {
+  //       return target[prop];
+  //     } else {
+  //       console.warn(`Property "${String(prop)}" does not exist on styles.`);
+  //       return undefined;
+  //     }
+  //   },
+  // });
 };

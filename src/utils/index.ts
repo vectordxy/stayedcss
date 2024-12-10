@@ -1,1 +1,1 @@
-export * from "./files/handleServerCSSFile";
+export * from "./files/handleStaticCSS";

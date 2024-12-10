@@ -1,7 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import { Json } from "../../types";
-import { addImportToIndex, addImportToLocalStyle } from "./handleImportToCSS";
+import { addImportToIndex, addImportToLocalStyle } from "./handleImportCSS";
 
 // 라이트모드
 export const writeStaticCSS = async (input: Json[], componentId: string) => {
@@ -18,17 +18,30 @@ export const writeStaticCSS = async (input: Json[], componentId: string) => {
     }
   };
 
+  const isStyleUpdated = async (filePath: string, newContent: string) => {
+    try {
+      const existingContent = await fs.readFile(filePath, "utf-8");
+      return existingContent !== newContent; // 파일 내용이 다르면 업데이트 필요
+    } catch {
+      return true; // 파일이 없으면 업데이트 필요
+    }
+  };
+
   try {
     // 디렉토리 확인 및 생성
     await ensureDirectoryExists(fullFilePath);
 
     // 일반 스타일 CSS 생성
     const cssContent = input.map(({ className, style }) => style).join("\n");
-    await fs.writeFile(fullFilePath, cssContent, "utf-8");
-    // console.log(`${componentId} CSS updated successfully.`);
 
-    // stayedcss/index.css에 컴포넌트의 style.css import 추가
-    await addImportToIndex(`style-${componentId}`);
+    if (await isStyleUpdated(fullFilePath, cssContent)) {
+      // 기존 파일과 다를 때만 새 파일 생성
+      await fs.writeFile(fullFilePath, cssContent, "utf-8");
+      console.log(`${componentId} CSS updated successfully.`);
+
+      // stayedcss/index.css에 @import 추가
+      await addImportToIndex(`style-${componentId}`);
+    }
   } catch (error) {
     console.error(`Failed to process CSS for ${componentId}:`, error);
   }
