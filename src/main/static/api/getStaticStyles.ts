@@ -7,6 +7,6 @@ export function stayedStyle(input: MainInput, config?: Config) {
   return transformStyles(input);
 }
 
-// export function stayedDarkStyle(input: MainInput, config?: Config) {
-//   return getStaticStyles(input, "dark", config);
-// }
+export function stayedDarkStyle(input: MainInput, config?: Config) {
+  getStaticStyles(input, "dark", config);
+}

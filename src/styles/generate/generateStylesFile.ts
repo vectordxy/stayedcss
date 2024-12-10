@@ -9,7 +9,7 @@ import {
   StylesForProxy,
 } from "../../types";
 import { handleKeyframes, handleMediaQuery } from "..";
-import { updateStyles } from "../syntax/generateSyntax";
+import { updateStyles } from "./updateStyles";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
 
 export const getStaticStyles = (

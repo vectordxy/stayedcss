@@ -1,4 +1,4 @@
-import { updateStyles } from "./generateSyntax";
+import { updateStyles } from "../generate/updateStyles";
 import { StyleObjectItem } from "../../types";
 
 export const handleMediaQuery = (

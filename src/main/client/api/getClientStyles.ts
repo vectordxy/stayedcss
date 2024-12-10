@@ -1,8 +1,9 @@
+import { MainInput } from "../../../client";
 import { transformStyles } from "../../../utils/common/transformStyles";
 
 let isProcessing = false;
 
-const postData = async (input: any) => {
+const postData = async (input: MainInput) => {
   if (isProcessing) {
     return; // 비동기 작업이 진행 중이면 함수 종료
   }
@@ -22,7 +23,7 @@ const postData = async (input: any) => {
   }
 };
 
-export const stayedClientStyle = (input: any) => {
+export const stayedClientStyle = (input: MainInput) => {
   if (typeof window !== "undefined") {
     postData(input);
   }
