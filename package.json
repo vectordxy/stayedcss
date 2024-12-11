@@ -1,6 +1,6 @@
 {
   "name": "stayedcss",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -13,7 +13,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./client": {
-      "import": "./dist/client/index.js"
+      "import": "./dist/client.js"
     }
   },
   "scripts": {
