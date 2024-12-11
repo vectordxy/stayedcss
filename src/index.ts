@@ -1,2 +1,2 @@
-export * from "./main/static/api/getStaticStyles";
-export * from "./main/static/api/getStaticStyles";
+export * from "./main/static/api/applyStaticStyles";
+export * from "./main/static/api/requestStyles";

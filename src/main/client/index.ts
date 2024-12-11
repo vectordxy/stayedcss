@@ -1,3 +1,3 @@
 export * from "./api/changeScreenMode";
 export * from "./api/saveScreenMode";
-export * from "./api/getClientStyles";
+export * from "./api/applyClientStyles";
