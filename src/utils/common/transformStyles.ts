@@ -1,4 +1,5 @@
 import { MainInput } from "../../client";
+import { formatComponentId } from "./formatComponentId";
 
 export const transformStyles = (input: MainInput): Record<string, string> => {
   const { componentId, ...styles } = input;
@@ -11,7 +12,7 @@ export const transformStyles = (input: MainInput): Record<string, string> => {
   const transformedStyles: Record<string, string> = {};
 
   Object.keys(styles).forEach((key) => {
-    transformedStyles[key] = `${key}-${id.replaceAll("/", "-")}`;
+    transformedStyles[key] = `${key}-${formatComponentId(id)}`;
   });
 
   return transformedStyles;

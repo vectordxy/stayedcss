@@ -11,6 +11,7 @@ import {
 import { handleKeyframes, handleMediaQuery } from "..";
 import { updateStyles } from "./updateStyles";
 import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import { formatComponentId } from "../../utils/common/formatComponentId";
 
 export const getStaticStyles = (
   input: MainInput,
@@ -19,7 +20,7 @@ export const getStaticStyles = (
 ) => {
   let inputBreakpoints: BreakPoints = defaultBreakpoints;
   let inputKeyframes: Keyframes = {};
-  const componentHash = (input.componentId as string).replace(/\//g, "-");
+  const componentHash = formatComponentId(input.componentId as string);
 
   if (config) {
     const { breakpoints, keyframes } = config;

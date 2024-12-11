@@ -10,16 +10,16 @@ export const addImportToIndex = async (folderPath: string) => {
     try {
       data = await fs.readFile(mainCSSFilePath, "utf-8");
     } catch {
-      // console.log("index.css not found, creating a new one.");
+      console.log("index.css not found, creating a new one.");
     }
 
     // @import 최상단에 추가하고 기존 내용 보존
     if (!data.includes(importStatement)) {
       const updatedData = `${importStatement}\n${data.trim()}`;
       await fs.writeFile(mainCSSFilePath, updatedData, "utf-8");
-      // console.log(`@import statement added to index.css: ${importStatement}`);
+      console.log(`@import statement added to index.css: ${importStatement}`);
     } else {
-      // console.log("The @import statement is already present in index.css.");
+      console.log("The @import statement is already present in index.css.");
     }
   } catch (error) {
     console.error("Error adding @import to index.css:", error);
@@ -44,16 +44,16 @@ export const addImportToIndex = async (folderPath: string) => {
 //     try {
 //       data = await fs.readFile(localStylePath, "utf-8");
 //     } catch {
-//       // console.log("style.css not found, creating a new one.");
+// console.log("style.css not found, creating a new one.");
 //     }
 
 //     // @import 최상단만 추가, 스타일 내용은 변경하지 않음
 //     if (!data.includes(importStatement)) {
 //       const updatedData = `${importStatement}\n${data.trim()}`; // 기존 스타일 내용 유지
 //       await fs.writeFile(localStylePath, updatedData, "utf-8");
-//       // console.log(`@import statement added to ${localStylePath}: ${importStatement}`);
+// console.log(`@import statement added to ${localStylePath}: ${importStatement}`);
 //     } else {
-//       // console.log(`The @import statement is already present in ${localStylePath}.`);
+// console.log(`The @import statement is already present in ${localStylePath}.`);
 //     }
 //   } catch (error) {
 //     console.error(`Error adding @import to ${localStylePath}:`, error);
@@ -81,7 +81,7 @@ export const addImportToDarkMode = async (folderPath: string) => {
     if (!data.includes(importStatement)) {
       const updatedData = `${importStatement}\n${data.trim()}`.trim();
       await fs.writeFile(centralDarkModePath, updatedData, "utf-8");
-      console.log(`Added import to central darkmode.css: ${importStatement}`);
+      // console.log(`Added import to central darkmode.css: ${importStatement}`);
     }
   } catch (error) {
     console.error("Error adding @import to central darkmode.css:", error);
@@ -100,16 +100,16 @@ export const ensureDarkModeImportInIndex = async () => {
     } catch {
       // index.css 파일이 없으면 새로 생성
       await fs.writeFile(mainCSSFilePath, "", "utf-8");
-      console.log("index.css created as it was not found.");
+      // console.log("index.css created as it was not found.");
     }
 
     // 다크모드 import 문이 없는 경우 추가
     if (!data.includes(importStatement)) {
       const updatedData = `${importStatement}\n${data.trim()}`.trim();
       await fs.writeFile(mainCSSFilePath, updatedData, "utf-8");
-      console.log(`Added @import for darkmode.css to index.css.`);
+      // console.log(`Added @import for darkmode.css to index.css.`);
     } else {
-      console.log(`@import for darkmode.css already exists in index.css.`);
+      // console.log(`@import for darkmode.css already exists in index.css.`);
     }
   } catch (error) {
     console.error(

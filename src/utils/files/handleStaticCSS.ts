@@ -24,7 +24,7 @@ const ensureDirectoryExists = async (filePath: string) => {
     await fs.access(dir);
   } catch {
     await fs.mkdir(dir, { recursive: true });
-    // console.log(`Directory created: ${dir}`);
+    console.log(`Directory created: ${dir}`);
   }
 };
 
@@ -53,7 +53,7 @@ export const writeStaticCSS = async (input: Json[], componentId: string) => {
     if (await isStyleUpdated(fullFilePath, cssContent)) {
       // 기존 파일과 다를 때만 새 파일 생성
       await fs.writeFile(fullFilePath, cssContent, "utf-8");
-      console.log(`${componentId} CSS updated successfully.`);
+      // console.log(`${componentId} CSS updated successfully.`);
 
       // stayedcss/index.css에 @import 추가
       await addImportToIndex(`style-${componentId}`);
@@ -80,7 +80,7 @@ export const writeStaticDarkModeCSS = async (
 
     // 새 파일로 다크모드 스타일 업데이트
     await fs.writeFile(fullFilePath, cssContent, "utf-8");
-    console.log(`${componentId} Dark Mode CSS updated successfully.`);
+    // console.log(`${componentId} Dark Mode CSS updated successfully.`);
 
     // 같은 폴더의 style.css에 다크모드 import 추가
     await addImportToDarkMode(`style-${componentId}`);
