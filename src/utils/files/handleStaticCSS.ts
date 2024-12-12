@@ -28,16 +28,6 @@ const ensureDirectoryExists = async (filePath: string) => {
   }
 };
 
-// 스타일 파일 존재 확인 및 생성 (style.css가 없는 경우 생성)
-const ensureStyleFileExists = async (filePath: string) => {
-  try {
-    await fs.access(filePath);
-  } catch {
-    // 스타일 파일이 없으면 생성
-    await fs.writeFile(filePath, "", "utf-8");
-  }
-};
-
 // 라이트모드
 export const writeStaticCSS = async (input: Json[], componentId: string) => {
   const cssFilePath = `style-${componentId}/style.css`;

@@ -21,29 +21,26 @@ const validPseudoClasses = [
   ":valid",
   ":in-range",
   ":out-of-range",
+  ":placeholder-shown",
+  ":fullscreen",
+  ":picture-in-picture",
 
   // 구조적 조건 관련
   ":first-child",
   ":last-child",
-  ":nth-child(n)",
-  ":nth-last-child(n)",
   ":only-child",
   ":first-of-type",
   ":last-of-type",
-  ":nth-of-type(n)",
-  ":nth-last-of-type(n)",
   ":only-of-type",
   ":empty",
 
   // 기타
-  ":not(selector)",
+  ":not",
   ":root",
   ":target",
-  ":lang(language)",
-  ":is(selector)",
-  ":where(selector)",
-  ":has(selector)",
-  ":dir(direction)",
+  ":is",
+  ":where",
+  ":has",
   ":scope",
 ];
 

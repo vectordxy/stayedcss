@@ -1,7 +1,4 @@
-import { writeStaticCSS, writeStaticDarkModeCSS } from "../../utils";
 import {
-  BreakPoints,
-  Config,
   Json,
   Keyframes,
   MainInput,
@@ -9,25 +6,34 @@ import {
   StylesForProxy,
 } from "../../types";
 import { handleKeyframes, handleMediaQuery } from "..";
+import { writeStaticCSS, writeStaticDarkModeCSS } from "../../utils";
 import { updateStyles } from "./updateStyles";
-import { defaultBreakpoints } from "../syntax/handleBreakpoints";
-import { formatComponentId } from "../../utils/common/formatComponentId";
+// import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import {
+  formatComponentId,
+  toLowerCaseComponentId,
+} from "../../utils/common/formatComponentId";
+import { loadBreakpoints } from "../../utils/files/loadBreakpoints";
 
 export const getStaticStyles = (
   input: MainInput,
-  inputScreenMode: "default" | "dark",
-  config?: Config
+  inputScreenMode: "default" | "dark"
 ) => {
-  let inputBreakpoints: BreakPoints = defaultBreakpoints;
+  let inputBreakpoints = loadBreakpoints();
+  // let inputBreakpoints: BreakPoints = defaultBreakpoints;
   let inputKeyframes: Keyframes = {};
-  const componentHash = formatComponentId(input.componentId as string);
 
-  if (config) {
-    const { breakpoints, keyframes } = config;
+  const componentClassName = formatComponentId(input.componentId as string);
+  const componentFileRootName = toLowerCaseComponentId(
+    input.componentId as string
+  );
 
-    inputBreakpoints = breakpoints || defaultBreakpoints;
-    inputKeyframes = keyframes || {};
-  }
+  // if (config) {
+  //   const { breakpoints, keyframes } = config;
+
+  //   inputBreakpoints = breakpoints || defaultBreakpoints;
+  //   inputKeyframes = keyframes || {};
+  // }
 
   const styleData = Object.entries(input).filter(
     ([key]) => key !== "componentId"
@@ -49,8 +55,8 @@ export const getStaticStyles = (
     const itemStyle = item[1] as unknown as StyleObjectItem;
     const itemClassName =
       inputScreenMode === "default"
-        ? `${itemName}-${componentHash}`
-        : `dark .${itemName}-${componentHash}`;
+        ? `${itemName}-${componentClassName}`
+        : `dark .${itemName}-${componentClassName}`;
 
     stylesForProxy[itemName] = "";
 
@@ -60,33 +66,20 @@ export const getStaticStyles = (
         inputBreakpoints[itemName],
         itemStyle,
         itemClassName,
-        componentHash
+        componentClassName
       );
       result.push(mqResult);
     } else {
-      // 그 외
       result = [...updateStyles(itemStyle, itemClassName), ...result];
     }
     stylesForProxy[itemName] = itemClassName;
   }
 
   const styleResult = [...keyframesResult, ...result];
-  const cIdHash = componentHash;
 
   if (inputScreenMode === "default") {
-    writeStaticCSS(styleResult, cIdHash);
+    writeStaticCSS(styleResult, componentFileRootName);
   } else {
-    writeStaticDarkModeCSS(styleResult, cIdHash);
+    writeStaticDarkModeCSS(styleResult, componentFileRootName);
   }
-
-  // return new Proxy(stylesForProxy, {
-  //   get(target, prop) {
-  //     if (typeof prop === "string" && prop in target) {
-  //       return target[prop];
-  //     } else {
-  //       console.warn(`Property "${String(prop)}" does not exist on styles.`);
-  //       return undefined;
-  //     }
-  //   },
-  // });
 };

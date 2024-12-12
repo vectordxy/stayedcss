@@ -6,13 +6,9 @@ const validPseudoElements = [
   "::placeholder",
   "::selection",
   "::marker",
-  "::part",
-  "::slotted",
   "::file-selector-button",
   "::backdrop",
   "::cue",
-  "::grammar-error",
-  "::spelling-error",
 ];
 
 export const isPseudoElements = (input: string) => {

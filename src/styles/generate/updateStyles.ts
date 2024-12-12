@@ -38,7 +38,7 @@ export const updateStyles = (
         result.unshift(pseudoClasses);
         break;
 
-      case /^[>+~ ]/.test(elementKey): // 조합자
+      case /^[>+~]$/.test(elementKey): // 조합자
         const combinators = handleCombinators(
           elementKey,
           elementStyle,
