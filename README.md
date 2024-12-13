@@ -1,4 +1,4 @@
-![stayedcss](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FXhHC6%2FbtsLiGaZynk%2FShjdoWHF7cElyYbvplkKWk%2Fimg.png)
+![stayedcss](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FccWzLp%2FbtsLiB8N2zD%2FzpDz5HKEHjlXrhGlZ4GBJK%2Fimg.png)
 
 <div align="center">
 
