@@ -1,4 +1,4 @@
-![stayedcss](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FrisCI%2FbtsLjdzo8oK%2FoYm0E4Q9KXFjcR5qeOQoZK%2Fimg.png)
+![stayedcss](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FXhHC6%2FbtsLiGaZynk%2FShjdoWHF7cElyYbvplkKWk%2Fimg.png)
 
 <div align="center">
 
@@ -57,4 +57,4 @@ For more details, check out the [documentation](https://stayedcss.vercel.app/doc
 
 ## Contribution
 
-StayedCSS is an open-source project. Feel free to submit bug reports or feature requests on [GitHub Issues]. Your feedback will play a vital role in evolving StayedCSS from a beta version to a stable and robust library.
+StayedCSS is an open-source project. Feel free to submit bug reports or feature requests on Issues. Your feedback will play a vital role in evolving StayedCSS from a beta version to a stable and robust library.
