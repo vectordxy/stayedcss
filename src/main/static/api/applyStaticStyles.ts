@@ -1,10 +1,10 @@
 import { MainInput } from "../../../types";
 import { getStaticStyles } from "../../../styles/generate/generateStylesFile";
-import { transformStyles } from "../../../utils/common/transformStyles";
+import { generateStylesClassName } from "../../../styles/generate/generateStylesClassName";
 
 export function stayedcss(input: MainInput) {
   getStaticStyles(input, "default");
-  return transformStyles(input);
+  return generateStylesClassName(input);
 }
 
 export function stayedcssDark(input: MainInput) {

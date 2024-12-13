@@ -1,6 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
-import { Json } from "../../types";
+import { Json } from "../../../../types";
 import { addImportToDarkMode, addImportToIndex } from "./handleImportCSS";
 
 // 스타일 업데이트 여부 확인 (공백 및 줄바꿈 제거 후 비교)

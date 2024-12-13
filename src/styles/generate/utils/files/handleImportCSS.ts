@@ -26,40 +26,6 @@ export const addImportToIndex = async (folderPath: string) => {
   }
 };
 
-// 폴더 style.css에 @import 추가
-// export const addImportToLocalStyle = async (
-//   folderPath: string,
-//   importFile: string
-// ) => {
-//   const localStylePath = path.join(
-//     process.cwd(),
-//     "stayedcss",
-//     folderPath,
-//     "style.css"
-//   );
-//   const importStatement = `@import "./${importFile}";`;
-
-//   try {
-//     let data = "";
-//     try {
-//       data = await fs.readFile(localStylePath, "utf-8");
-//     } catch {
-// console.log("style.css not found, creating a new one.");
-//     }
-
-//     // @import 최상단만 추가, 스타일 내용은 변경하지 않음
-//     if (!data.includes(importStatement)) {
-//       const updatedData = `${importStatement}\n${data.trim()}`; // 기존 스타일 내용 유지
-//       await fs.writeFile(localStylePath, updatedData, "utf-8");
-// console.log(`@import statement added to ${localStylePath}: ${importStatement}`);
-//     } else {
-// console.log(`The @import statement is already present in ${localStylePath}.`);
-//     }
-//   } catch (error) {
-//     console.error(`Error adding @import to ${localStylePath}:`, error);
-//   }
-// };
-
 export const addImportToDarkMode = async (folderPath: string) => {
   const centralDarkModePath = path.join(
     process.cwd(),

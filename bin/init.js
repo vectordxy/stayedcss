@@ -7,8 +7,7 @@ const stayedcssDir = "stayedcss";
 const cssFilePath = path.join(stayedcssDir, "index.css");
 const darkmodeCssFilePath = path.join(stayedcssDir, "darkmode.css");
 
-const initialCSSContent = `@import "./darkmode.css";
-`;
+const initialCSSContent = `@import "./darkmode.css";`;
 
 async function initStayedcss() {
   try {

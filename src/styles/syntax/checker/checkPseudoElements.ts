@@ -1,4 +1,4 @@
-const validPseudoElements = [
+const validPseudoElements = new Set([
   "::before",
   "::after",
   "::first-line",
@@ -9,10 +9,10 @@ const validPseudoElements = [
   "::file-selector-button",
   "::backdrop",
   "::cue",
-];
+]);
 
 export const isPseudoElements = (input: string) => {
-  if (validPseudoElements.includes(input)) {
+  if (validPseudoElements.has(input)) {
     return true;
   }
 

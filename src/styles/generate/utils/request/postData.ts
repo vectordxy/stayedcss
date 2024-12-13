@@ -1,4 +1,4 @@
-import { MainInput } from "../../client";
+import { MainInput } from "../../../../client";
 
 let isProcessing = false;
 let isDarkProcessing = false;

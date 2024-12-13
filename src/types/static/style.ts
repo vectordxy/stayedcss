@@ -19,3 +19,5 @@ export type Keyframes = {
     [percentage: string]: KeyframeStyle;
   };
 };
+
+export type BasicStyle = Record<string, string>;

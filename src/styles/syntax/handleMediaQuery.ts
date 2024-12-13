@@ -1,4 +1,4 @@
-import { updateStyles } from "../generate/updateStyles";
+import { generateStylesWithSyntax } from "../generate/generateStylesWithSyntax";
 import { StyleObjectItem } from "../../types";
 
 export const handleMediaQuery = (
@@ -14,7 +14,10 @@ export const handleMediaQuery = (
     if (inputStyle.hasOwnProperty(key)) {
       const itemClassName = `${key}-${componentHash}`;
       const itemStyle = inputStyle[key] as any;
-      result = [...result, ...updateStyles(itemStyle, itemClassName)];
+      result = [
+        ...result,
+        ...generateStylesWithSyntax(itemStyle, itemClassName),
+      ];
     }
   }
 

@@ -1,4 +1,4 @@
-const validPseudoClasses = [
+const validPseudoClasses = new Set([
   // 사용자 상호작용 관련
   ":hover",
   ":focus",
@@ -42,10 +42,10 @@ const validPseudoClasses = [
   ":where",
   ":has",
   ":scope",
-];
+]);
 
 export const isPseudoClasses = (input: string) => {
-  if (validPseudoClasses.includes(input)) {
+  if (validPseudoClasses.has(input)) {
     return true;
   }
 

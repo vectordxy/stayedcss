@@ -1,7 +1,8 @@
 import { MainInput } from "../../client";
-import { formatComponentId } from "./formatComponentId";
+import { BasicStyle } from "../../types";
+import { formatComponentId } from "./utils/common/handleComponentId";
 
-export const transformStyles = (input: MainInput): Record<string, string> => {
+export const generateStylesClassName = (input: MainInput) => {
   const { componentId, ...styles } = input;
   const id = componentId as string;
 
@@ -9,7 +10,7 @@ export const transformStyles = (input: MainInput): Record<string, string> => {
     throw new Error("componentId is required in the input object.");
   }
 
-  const transformedStyles: Record<string, string> = {};
+  const transformedStyles: BasicStyle = {};
 
   Object.keys(styles).forEach((key) => {
     transformedStyles[key] = `${key}-${formatComponentId(id)}`;

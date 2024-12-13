@@ -1,4 +1,5 @@
 import {
+  BreakPoints,
   Json,
   Keyframes,
   MainInput,
@@ -6,21 +7,21 @@ import {
   StylesForProxy,
 } from "../../types";
 import { handleKeyframes, handleMediaQuery } from "..";
-import { writeStaticCSS, writeStaticDarkModeCSS } from "../../utils";
-import { updateStyles } from "./updateStyles";
-// import { defaultBreakpoints } from "../syntax/handleBreakpoints";
+import { writeStaticCSS, writeStaticDarkModeCSS } from "./utils";
+import { generateStylesWithSyntax } from "./generateStylesWithSyntax";
+import { defaultBreakpoints } from "./utils/common/handleBreakpoints";
 import {
   formatComponentId,
   toLowerCaseComponentId,
-} from "../../utils/common/formatComponentId";
-import { loadBreakpoints } from "../../utils/files/loadBreakpoints";
+} from "./utils/common/handleComponentId";
+import { loadBreakpoints } from "./utils/files/loadBreakpoints";
 
 export const getStaticStyles = (
   input: MainInput,
   inputScreenMode: "default" | "dark"
 ) => {
-  let inputBreakpoints = loadBreakpoints();
-  // let inputBreakpoints: BreakPoints = defaultBreakpoints;
+  // let inputBreakpoints = loadBreakpoints();
+  let inputBreakpoints: BreakPoints = defaultBreakpoints;
   let inputKeyframes: Keyframes = {};
 
   const componentClassName = formatComponentId(input.componentId as string);
@@ -70,7 +71,10 @@ export const getStaticStyles = (
       );
       result.push(mqResult);
     } else {
-      result = [...updateStyles(itemStyle, itemClassName), ...result];
+      result = [
+        ...generateStylesWithSyntax(itemStyle, itemClassName),
+        ...result,
+      ];
     }
     stylesForProxy[itemName] = itemClassName;
   }

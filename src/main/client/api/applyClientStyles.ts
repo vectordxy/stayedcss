@@ -1,12 +1,15 @@
 import { MainInput } from "../../../client";
-import { transformStyles } from "../../../utils/common/transformStyles";
-import { postDarkData, postData } from "../../../utils/request/postData";
+import { generateStylesClassName } from "../../../styles/generate/generateStylesClassName";
+import {
+  postDarkData,
+  postData,
+} from "../../../styles/generate/utils/request/postData";
 
 export const stayedcssClient = (input: MainInput) => {
   if (typeof window !== "undefined") {
     postData(input, "default");
   }
-  return transformStyles(input);
+  return generateStylesClassName(input);
 };
 
 export const stayedcssClientDark = (input: MainInput) => {
