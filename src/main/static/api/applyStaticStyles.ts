@@ -2,11 +2,11 @@ import { MainInput } from "../../../types";
 import { getStaticStyles } from "../../../styles/generate/generateStylesFile";
 import { generateStylesClassName } from "../../../styles/generate/generateStylesClassName";
 
-export function stayedcss(input: MainInput) {
+export function st(input: MainInput) {
   getStaticStyles(input, "default");
   return generateStylesClassName(input);
 }
 
-export function stayedcssDark(input: MainInput) {
+export function stDark(input: MainInput) {
   getStaticStyles(input, "dark");
 }

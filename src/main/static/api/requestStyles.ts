@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { stayedcss, stayedcssDark } from "..";
+import { st, stDark } from "..";
 
 export async function requestStyles(request: Request) {
   try {
     const { data, mode } = await request.json();
 
     if (mode === "default") {
-      stayedcss(data);
+      st(data);
     } else if (mode === "dark") {
-      stayedcssDark(data);
+      stDark(data);
     }
 
     return NextResponse.json({

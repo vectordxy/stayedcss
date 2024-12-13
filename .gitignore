@@ -2,3 +2,4 @@ node_modules
 stayedcss/
 dist/
 *.tgz
+package-lock.json

@@ -3,3 +3,4 @@ src
 .gitignore
 *.tgz
 tsconfig.json
+package-lock.jon
