@@ -28,5 +28,30 @@
   "devDependencies": {
     "@types/node": "^22.9.1",
     "typescript": "^5.6.3"
-  }
+  },
+  "author": {
+    "name": "jin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vectordxy/stayedcss"
+  },
+  "homepage": "https://stayedcss.vercel.app",
+  "description": "CSS library for Next.js App Router",
+  "keywords": [
+    "css",
+    "static css",
+    "next.js",
+    "next.js app router",
+    "css library",
+    "media queries",
+    "dark mode",
+    "react",
+    "server components",
+    "client components",
+    "styling",
+    "next.js styling",
+    "frontend",
+    "web development"
+  ]
 }
