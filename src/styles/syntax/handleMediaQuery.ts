@@ -1,23 +1,21 @@
-import { generateStylesWithSyntax } from "../generate/generateStylesWithSyntax";
+import { generateStyles } from "../generate/generateStyles";
 import { StyleObjectItem } from "../../types";
 
 export const handleMediaQuery = (
   mediaQueryKey: string,
-  inputStyle: StyleObjectItem,
-  className: string,
-  componentHash: string
+  inputStyle: any,
+  componentHash: string,
+  mode: string
 ) => {
   let mediaQueryString = `@media ${mediaQueryKey} { `;
   let result: { className: string; style: string }[] = [];
+  let itemClassName = "";
 
   for (const key in inputStyle) {
     if (inputStyle.hasOwnProperty(key)) {
-      const itemClassName = `${key}-${componentHash}`;
+      itemClassName = `${key}-${componentHash}`;
       const itemStyle = inputStyle[key] as any;
-      result = [
-        ...result,
-        ...generateStylesWithSyntax(itemStyle, itemClassName),
-      ];
+      result = [...result, ...generateStyles(itemStyle, itemClassName, mode)];
     }
   }
 
@@ -28,7 +26,7 @@ export const handleMediaQuery = (
   mediaQueryString += `} `;
 
   return {
-    className: `@media-${mediaQueryKey}-${className}`,
+    className: `${mediaQueryKey}-${itemClassName}`,
     style: mediaQueryString,
   };
 };

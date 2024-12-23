@@ -1,12 +1,8 @@
 import { MainInput } from "../../../types";
-import { getStaticStyles } from "../../../styles/generate/generateStylesFile";
-import { generateStylesClassName } from "../../../styles/generate/generateStylesClassName";
+import { getStyles } from "../../../styles/generate/getStyles";
+import { generateClassName } from "../../../styles/generate/generateClassName";
 
-export function st(input: MainInput) {
-  getStaticStyles(input, "default");
-  return generateStylesClassName(input);
-}
-
-export function stDark(input: MainInput) {
-  getStaticStyles(input, "dark");
-}
+export const useStyle = (input: MainInput) => {
+  getStyles(input);
+  return generateClassName(input);
+};

@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server";
-import { st, stDark } from "..";
+import { useStyle } from "..";
 
 export async function requestStyles(request: Request) {
   try {
-    const { data, mode } = await request.json();
-
-    if (mode === "default") {
-      st(data);
-    } else if (mode === "dark") {
-      stDark(data);
-    }
+    const { data } = await request.json();
+    useStyle(data);
 
     return NextResponse.json({
       result: data,

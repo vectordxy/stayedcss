@@ -5,6 +5,5 @@ export * from "./syntax/checker/checkUnits";
 
 export * from "./syntax/handleCombinator";
 export * from "./syntax/handleGeneralCSS";
-export * from "./syntax/handleKeyframes";
 export * from "./syntax/handleMediaQuery";
 export * from "./syntax/handlePseudo";
