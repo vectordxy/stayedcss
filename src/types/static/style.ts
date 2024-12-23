@@ -3,15 +3,15 @@ export interface StylesForProxy {
 }
 
 export interface StyleItem {
-  [styleKey: string]: string | number;
+  [styleKey: string]: any;
 }
 
 export interface StyleObjectItem {
-  [styleKey: string]: string | number | StyleItem;
+  [styleKey: string]: any | StyleItem;
 }
 
 export type KeyframeStyle = {
-  [property: string]: string | number;
+  [property: string]: any;
 };
 
 export type Keyframes = {

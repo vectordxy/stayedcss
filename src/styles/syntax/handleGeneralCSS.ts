@@ -1,9 +1,6 @@
 import { isRequiredUnits } from "./checker/checkUnits";
 
-export const handleGeneralCSS = (
-  elementKey: string,
-  inputStyle: string | number
-) => {
+export const handleGeneralCSS = (elementKey: string, inputStyle: any) => {
   let resultString = "";
   const styleKey = elementKey.replace(/([A-Z])/g, "-$1").toLowerCase();
 
