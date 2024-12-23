@@ -67,6 +67,11 @@ export const getStyles = (input: MainInput) => {
     }
   }
 
-  writeStaticCSS(result, componentFileRootName);
-  writeStaticDarkModeCSS(darkModeResult, componentFileRootName);
+  if (result.length > 0) {
+    writeStaticCSS(result, componentFileRootName);
+  }
+
+  if (darkModeResult.length > 0) {
+    writeStaticDarkModeCSS(darkModeResult, componentFileRootName);
+  }
 };
