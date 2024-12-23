@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![version](<https://img.shields.io/badge/npm-0.0.1(beta)-blue>)
+![version](<https://img.shields.io/badge/npm-0.0.2(beta)-blue>)
 
 </div>
 
