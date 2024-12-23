@@ -4,8 +4,6 @@
 
 ![version](<https://img.shields.io/badge/npm-0.0.1(beta)-blue>)
 
-StayedCSS: The CSS library for Next.js App Router
-
 </div>
 
 <br/>
@@ -38,8 +36,8 @@ yarn add stayedcss
 **Usage Example**
 
 ```jsx
-import { st } from "stayedcss";
-const styles = st({
+import { useStyle } from "stayedcss";
+const styles = useStyle({
   componentId: "components/example",
   container: {
     backgroundColor: "black",
@@ -57,4 +55,8 @@ For more details, check out the [documentation](https://stayedcss.vercel.app/doc
 
 ## Contribution
 
-StayedCSS is an open-source project. Feel free to submit bug reports or feature requests on Issues. Your feedback will play a vital role in evolving StayedCSS from a beta version to a stable and robust library.
+StayedCSS is an open-source project. Feel free to submit bug reports or feature requests on Issues. Your feedback is important for StayedCSS from a beta version to a stable and robust library.
+
+## License
+
+MIT
