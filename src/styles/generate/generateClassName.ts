@@ -2,7 +2,7 @@ import { MainInput } from "../../client";
 import { BasicStyle } from "../../types";
 import { formatComponentId } from "./utils/common/handleComponentId";
 
-export const generateStylesClassName = (input: MainInput) => {
+export const generateClassName = (input: MainInput) => {
   const { componentId, ...styles } = input;
   const id = componentId as string;
 

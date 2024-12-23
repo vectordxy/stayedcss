@@ -30,7 +30,7 @@ const ensureDirectoryExists = async (filePath: string) => {
 
 // 라이트모드
 export const writeStaticCSS = async (input: Json[], componentId: string) => {
-  const cssFilePath = `style-${componentId}/style.css`;
+  const cssFilePath = `${componentId}/style.css`;
   const fullFilePath = path.join(process.cwd(), "stayedcss", cssFilePath);
 
   try {
@@ -46,7 +46,7 @@ export const writeStaticCSS = async (input: Json[], componentId: string) => {
       // console.log(`${componentId} CSS updated successfully.`);
 
       // stayedcss/index.css에 @import 추가
-      await addImportToIndex(`style-${componentId}`);
+      await addImportToIndex(`${componentId}`);
     }
   } catch (error) {
     console.error(`Failed to process CSS for ${componentId}:`, error);
@@ -58,7 +58,7 @@ export const writeStaticDarkModeCSS = async (
   input: Json[],
   componentId: string
 ) => {
-  const cssFilePath = `style-${componentId}/darkmode.css`;
+  const cssFilePath = `${componentId}/darkmode.css`;
   const fullFilePath = path.join(process.cwd(), "stayedcss", cssFilePath);
 
   try {
@@ -73,7 +73,7 @@ export const writeStaticDarkModeCSS = async (
     // console.log(`${componentId} Dark Mode CSS updated successfully.`);
 
     // 같은 폴더의 style.css에 다크모드 import 추가
-    await addImportToDarkMode(`style-${componentId}`);
+    await addImportToDarkMode(`${componentId}`);
   } catch (error) {
     console.error(`Failed to process Dark Mode CSS for ${componentId}:`, error);
   }

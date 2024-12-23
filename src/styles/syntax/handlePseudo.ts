@@ -4,9 +4,13 @@ import { isRequiredUnits } from "./checker/checkUnits";
 export const handlePseudo = (
   elementKey: string,
   inputStyle: StyleObjectItem,
-  className: string
+  className: string,
+  mode: string
 ) => {
-  let resultString = `.${className}${elementKey} { `;
+  let resultString =
+    mode === "light"
+      ? `.${className}${elementKey} { `
+      : `.dark .${className}${elementKey} { `;
 
   for (const key in inputStyle) {
     const styleKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
