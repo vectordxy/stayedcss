@@ -50,8 +50,8 @@ For more details, check out the [documentation](https://stayedcss.vercel.app/doc
 
 ## Limitations (Beta Version)
 
-- StayedCSS is currently only compatible with the **Next.js App Router** environment.
-- As this is a beta release, stability is not guaranteed. It is recommended to thoroughly test before integrating it into your project.
+- As this libraryis currently in **beta version**, stability is not guaranteed.
+- Any code, sturcture or function can be changed. Features may be modified, added, or removed as I continue to improve and stabilize it.
 
 ## Contribution
 
