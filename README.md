@@ -8,7 +8,8 @@
 
 <br/>
 
-## Introduction
+# Unlock the Full Potential of Next.js Apps With a CSS Library Designed for Simplicity and Performance 🚀
+
 
 > StayedCSS - beta version
 
@@ -16,12 +17,23 @@ StayedCSS is a static CSS library designed for **Next.js App Router**, offering 
 
 Currently in its beta version, StayedCSS is rapidly improving in optimization and stability. It will continue to evolve to deliver a better styling experience for your projects.
 
-## Main Features
+## Why StayedCSS?
 
+1. Simplifies complex styling tasks.
+2. Optimized for the Next.js App Router.
+3. Provides a modern, developer-friendly approach to CSS.
+
+## Key Features
+
+- **Flicker-Free Dark Mode Transitions**: Ensure smooth, visually appealing, and flicker-free transitions when toggling dark mode.
 - **Server and Client Component Support**: Apply styles seamlessly to server and client components in the Next.js App Router environment.
-- **Various Styling Options**: Supports various CSS styles such as `:hover`, `::after`, and `~ p`.
-- **Media Queries**: Simplify responsive design implementation.
-- **Dark Mode**: Offers flicker-free dark mode transitions.
+- **Simple Syntax**: Write clean and maintainable CSS code with powerful features.
+- **Media Queries**: Effortlessly create responsive designs with built-in media query support.
+- **Pseudo-Classes and Elements**: Utilize CSS commands such as `:hover`, `::after`, and `~ p` for advanced styling.
+
+ # 🎉 **Start Using StayedCSS Today!** 🎉
+
+Experience the future of styling with a library built for developers who love simplicity! 
 
 ## Getting Started
 
