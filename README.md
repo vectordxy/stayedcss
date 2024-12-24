@@ -67,6 +67,10 @@ For more details, check out the [documentation](https://stayedcss.vercel.app/doc
 
 StayedCSS is an open-source project. Feel free to submit bug reports or feature requests on Issues. Your feedback is important for StayedCSS from a beta version to a stable and robust library.
 
+### PR Guidelines
+- Base Branch: Please ensure that your PR targets the dev branch.
+- Commit Messages: Write clear and concise commit messages.
+
 ## License
 
 MIT
