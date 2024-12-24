@@ -8,10 +8,10 @@
 
 <br/>
 
-# Unlock the Full Potential of Next.js Apps With a CSS Library Designed for Simplicity and Performance 🚀
+## What is StayedCSS
 
+### Unlock the Full Potential of Next.js Apps With a CSS Library Designed for Simplicity and Performance 🚀
 
-> StayedCSS - beta version
 
 StayedCSS is a static CSS library designed for **Next.js App Router**, offering full support for both server and client components. With a simple syntax similar to basic CSS, it enables efficient styling and aims to be the next-generation CSS library for the Next.js App Router.
 
@@ -31,11 +31,9 @@ Currently in its beta version, StayedCSS is rapidly improving in optimization an
 - **Media Queries**: Effortlessly create responsive designs with built-in media query support.
 - **Pseudo-Classes and Elements**: Utilize CSS commands such as `:hover`, `::after`, and `~ p` for advanced styling.
 
- # 🎉 **Start Using StayedCSS Today!** 🎉
+## 🎉 **Start Using StayedCSS Today!** 🎉
 
 Experience the future of styling with a library built for developers who love simplicity! 
-
-## Getting Started
 
 **Installation**
 
